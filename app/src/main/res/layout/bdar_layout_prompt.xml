@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.baidu.ar.pro.view.ScanView
+    <com.baidu.ar.pro.AR.view.ScanView
         android:id="@+id/bdar_gui_scan_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
-    <com.baidu.ar.pro.view.PointsView
+    <com.baidu.ar.pro.AR.view.PointsView
         android:id="@+id/bdar_gui_point_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -83,7 +83,7 @@
         android:textColor="@android:color/holo_blue_bright"/>
     <!-- 加载提示界面 -->
 
-    <com.baidu.ar.pro.view.LoadingView
+    <com.baidu.ar.pro.AR.view.LoadingView
         android:id="@+id/lv_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
