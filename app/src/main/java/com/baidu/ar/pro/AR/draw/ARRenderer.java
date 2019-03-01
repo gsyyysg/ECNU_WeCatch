@@ -22,8 +22,6 @@ public class ARRenderer implements GLSurfaceView.Renderer {
     private ARDrawer mCameraDrawer;
     private SurfaceTexture mCameraTexture;
     private int mCameraTextureID;
-    private int mCameraWidth;
-    private int mCameraHeight;
     private SurfaceTexture.OnFrameAvailableListener mCameraFrameListener;
 
     private ARDrawer mARDrawer;
@@ -55,27 +53,8 @@ public class ARRenderer implements GLSurfaceView.Renderer {
         return mCameraTexture;
     }
 
-    public void setDrawAR(boolean drawAR) {
-        mDrawAR = drawAR;
-        mDrawerChanged = true;
-    }
 
     private boolean mDrawerChanged = false;
-
-    //    public void setCameraRenderCallback(CameraRenderCallback callback) {
-    //        mCameraRenderCallback = callback;
-    //    }
-
-    public void setCameraFrameListener(SurfaceTexture.OnFrameAvailableListener listener) {
-        mCameraFrameListener = listener;
-        setCameraFrameListener();
-    }
-
-    private void setCameraFrameListener() {
-        if (mCameraTexture != null && mCameraFrameListener != null) {
-            mCameraTexture.setOnFrameAvailableListener(mCameraFrameListener);
-        }
-    }
 
     public void setARRenderCallback(ARRenderCallback callback) {
         mARRenderCallback = callback;

@@ -17,7 +17,6 @@ import com.baidu.ar.bean.ARResource;
 import com.baidu.ar.bean.BrowserBean;
 import com.baidu.ar.bean.TrackRes;
 import com.baidu.ar.pro.AR.callback.PromptCallback;
-import com.baidu.ar.pro.AR.module.Module;
 import com.baidu.ar.pro.AR.module.PaddleController;
 import com.baidu.ar.pro.AR.view.ARControllerManager;
 import com.baidu.ar.pro.AR.view.PointsView;
@@ -108,11 +107,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private ScanView mScanView;
 
     /**
-     * 依赖外部Module
-     */
-    private Module mModule;
-
-    /**
      * ar sdk 接口ARController
      */
     private ARController mARController;
@@ -191,9 +185,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
         mDuMixCallback = this;
 
-        mModule = new Module(mContext, mARController);
-        mModule.setPluginContainer(mPluginContainer);
-
         findViewById(R.id.show_case).setOnClickListener(this);
 
     }
@@ -235,7 +226,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     }
 
     public void release() {
-        mModule.onRelease();
         mDuMixCallback = null;
         mPromptCallback = null;
         mContext = null;
@@ -281,45 +271,10 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 showToast(Res.getString("bdar_error_json_parser"));
                 break;
 
-            // 识图AR错误消息
-            case MsgField.IMSG_RECGAR_TOAST_ERROR:
-                showToast("识图AR错误消息");
-                break;
-
-            // 识图AR网络错误
-            case MsgField.IMSG_RECGAR_NETWORT_ERROR:
-                showToast("识图AR网络错误");
-                break;
-
-            // 云端识图AR错误消息
-            case MsgField.IMSG_CLOUDAR_TOAST_ERROR:
-                showToast("云端识图AR错误消息");
-                break;
-
-            // 截图成功
-            case MsgField.IMSG_SAVE_PICTURE:
-                showToast(" 截图成功");
-                break;
-
-            // 录制成功
-            case MsgField.IMSG_SAVE_VIDEO:
-                showToast(" 录制成功");
-                break;
-
             // 网络未连接
             case MsgField.MSG_NO_NETWORK_FOR_START_QUERY_RES:
             case MsgField.IMSG_NO_NETWORK:
                 showToast(" 网络未连接");
-                break;
-
-            // 识图初始化
-            case MsgField.IMSG_ON_DEVICE_IR_START:
-                showToast(" 本地识图初始化成功，请对准扫描图");
-                break;
-
-            // 云端识图初始化
-            case MsgField.IMSG_CLORD_ID_START:
-                showToast(" 云端识图初始化成功，请对准扫描图");
                 break;
 
             // track 模型显示
@@ -330,11 +285,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
             // slam 模型消失
             case MsgField.IMSG_SLAM_MODEL_DISAPPEAR:
                 showToast(" slam 模型消失");
-                break;
-
-            // imu 模型消失
-            case MsgField.IMSG_IMU_MODEL_DISAPPEAR:
-                showToast(" imu 模型消失");
                 break;
 
             // 2D算法跟踪丢失
@@ -418,22 +368,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 break;
             case MsgField.MSG_SHARE:
                 break;
-            // 本地识图 识别结果
-            case MsgField.MSG_ON_DEVICE_IR_RESULT:
-            case MsgField.IMSG_CLOUDAR_RECG_RESULT:
-                setPointViewVisible(false);
-                Log.e("recg_result =", msg.toString());
-                try {
-                    JSONObject object = new JSONObject(msg.toString());
-                    arKey = object.getString("ar_key");
-                    arType = Integer.parseInt(object.getString("ar_type"));
-                    // 根据本地识图结果 切换case
-                    mPromptCallback.onChangeCase(arKey, arType);
-                    showToast(" 本地识图成功.切换CASE: " + arKey + " type = " + arType);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
             case MsgField.IMSG_DEVICE_NOT_SUPPORT:
                 showToast("哎呦，机型硬件不支持");
                 break;
@@ -475,8 +409,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void onLuaMessage(HashMap<String, Object> hashMap) {
-        // TODO: 2018/5/10 接收lua信息到业务层
-        mModule.parseLuaMessage(hashMap);
 
     }
 
@@ -501,12 +433,12 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void onPause(boolean b) {
-        mModule.onPause();
+
     }
 
     @Override
     public void onResume(boolean b) {
-        mModule.onResume();
+
     }
 
     @Override
@@ -521,11 +453,11 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     // callback end
 
     public void pause() {
-        mModule.onPause();
+
     }
 
     public void resume() {
-        mModule.onResume();
+
     }
 
     /**

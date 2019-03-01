@@ -127,14 +127,4 @@ public class ARCameraManager implements EasyCameraCallback, Camera.PreviewCallba
     public void setPreviewCallback(PreviewCallback previewCallback) {
         this.mPreviewCallback = previewCallback;
     }
-
-
-    /**
-     * 判断是否支持前置摄像头
-     *
-     * @return
-     */
-    public boolean isFrontCameraPreviewSupported() {
-        return CameraHelper.isCameraSupported(Camera.CameraInfo.CAMERA_FACING_FRONT);
-    }
 }

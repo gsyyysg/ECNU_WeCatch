@@ -3,7 +3,6 @@
  */
 package com.baidu.ar.pro.AR;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
-import com.baidu.ar.TakePictureCallback;
 import com.baidu.ar.bean.ARConfig;
 import com.baidu.ar.pro.AR.callback.PreviewCallback;
 import com.baidu.ar.pro.AR.callback.PromptCallback;
@@ -21,7 +19,6 @@ import com.baidu.ar.pro.AR.camera.ARStartCameraCallback;
 import com.baidu.ar.pro.AR.camera.ARSwitchCameraCallback;
 import com.baidu.ar.pro.AR.draw.ARRenderer;
 import com.baidu.ar.pro.AR.draw.GLConfigChooser;
-import com.baidu.ar.pro.AR.module.MsgType;
 import com.baidu.ar.pro.AR.ui.Prompt;
 import com.baidu.ar.pro.AR.view.ARControllerManager;
 import com.baidu.ar.pro.R;
@@ -29,7 +26,6 @@ import com.baidu.ar.pro.draw.ARRenderCallback;
 import com.baidu.ar.recg.CornerPoint;
 import com.baidu.ar.recg.CornerPointController;
 import com.baidu.ar.recg.ImgRecognitionClient;
-import com.baidu.ar.recorder.MovieRecorderCallback;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
 
@@ -41,7 +37,6 @@ import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -49,7 +44,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 /**
  * AR Fragment
@@ -457,101 +451,20 @@ public class ARFragment extends Fragment {
 
         @Override
         public void onTackPicture() {
-            String path = getCachePath() + File.separator + System.currentTimeMillis() + ".jpg";
-            if (mARController != null) {
-                mARController.takePicture(path, new TakePictureCallback() {
-                    @Override
-                    public void onPictureTake(final boolean result, final String filePath) {
-                        UiThreadUtil.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (getActivity() != null) {
-                                    Toast.makeText(getActivity(), "保存 :" + result + "\n" + filePath, Toast.LENGTH_SHORT)
-                                            .show();
-                                }
-                            }
-                        });
-                    }
-                });
-            }
         }
 
         @Override
         public void onStartRecord() {
-            if (mARController == null) {
-                return;
-            }
-            // 录像文件全路径为： 存储路径 + 当前时间戳 + .mp4
-            String path = getCachePath() + File.separator + System.currentTimeMillis() + ".mp4";
-            mARController.startRecord(path, mRecordMaxTime, new MovieRecorderCallback() {
-                @Override
-                public void onRecorderStart(boolean b) {
-
-                }
-
-                @Override
-                public void onRecorderProcess(int i) {
-                    // TODO: 2018/6/1 当进度大于100时停止录制
-                    if (i >= 100) {
-                        onStopRecord();
-                    }
-                }
-
-                @Override
-                public void onRecorderComplete(final boolean b, final String result) {
-                    UiThreadUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (getContext() != null) {
-                                Toast.makeText(getContext(), b ? "成功..." + result : "失败" + "保存 :" + result,
-                                        Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public void onRecorderError(int i) {
-
-                }
-            });
         }
 
         @Override
         public void onStopRecord() {
-            if (mARController != null) {
-                mARController.stopRecord();
-            }
         }
 
         @Override
         public void onCaseChange() {
-            // 向Lua发送消息
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("id", MsgType.MSG_TYPE_THIRD);
-            mARController.sendMessage2Lua(map);
-            // 向Lua发送消息 end
         }
     };
-
-    /**
-     * 文件存储路径，业务层可以自定义
-     *
-     * @return 路径
-     */
-    public static String getCachePath() {
-        String path = null;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "ar-demo";
-        }
-        File dir = new File(path);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        return path;
-    }
-
     /**
      * 图片旋转90 度
      *
@@ -564,9 +477,7 @@ public class ARFragment extends Fragment {
     private byte[] rotateImage(byte[] data, int width, int height) {
         byte[] rotatedData = null;
         try {
-            if (null == rotatedData || rotatedData.length != data.length) {
-                rotatedData = new byte[data.length];
-            }
+            rotatedData = new byte[data.length];
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     rotatedData[x * height + height - y - 1] = data[x + y * width];
