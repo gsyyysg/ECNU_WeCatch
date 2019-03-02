@@ -72,7 +72,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
             @Override
             public int getSpanSize(int position){
-                if("flase".equals(mData.get(position).get(IS_TITLE_OR_NOT))){
+                if("false".equals(mData.get(position).get(IS_TITLE_OR_NOT))){
                     return 1;
                 }
                 else return ColumnNum;
@@ -105,7 +105,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
     public class HolderOne extends ViewHolder{
          public HolderOne(View viewHolder){
              super(viewHolder);
-             mTitle= (TextView) viewHolder.findViewById(R.id.title);
+             mTitle= viewHolder.findViewById(R.id.title);
                  }
     }
 
