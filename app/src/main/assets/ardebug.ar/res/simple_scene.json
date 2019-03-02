@@ -1,0 +1,876 @@
+{
+    "showImmediately": 1,
+    "showOffscreenGuidance": 1,
+    "userInteraction":
+    {
+        "disableAll": 0,
+        "disablePinch": 1,
+        "disableClick": 0,
+        "disableScroll": 1,
+        "disableLongPress": 1,
+        "disableSingleFingerScroll": 1,
+        "disableTwoFingerScroll": 1,
+        "disableDoubleClick": 1,
+        "disableAccompany": 1
+    },
+    "nodeList": [
+    {
+        "name": "mainCamera",
+        "type": "camera",
+        "visiable": "1",
+        "position": "0,0,0",
+        "scale": "1,1,1",
+        "rotation": "0,0,0",
+        "children": [],
+        "cameraNodeSuppl":
+        {
+            "fov": 32,
+            "zNear": 50,
+            "zFar": 51500
+        }
+    },
+                 {
+                 "name": "directLightRight",
+                 "type": "directLight",
+                 "rotation": "0,0,0",
+                 "chirlden": [],
+                 "lightNodeSuppl":
+                 {
+                 "color": "255.0,200.0,200.0",
+                 "intensity": 1.0,
+                 "direction": "1, -2, 1",
+                 "enableShadow": 0
+                 }
+                 },
+                 {
+                 "name": "directLightRight2",
+                 "type": "directLight",
+                 "rotation": "0,0,0",
+                 "chirlden": [],
+                 "lightNodeSuppl":
+                 {
+                 "color": "255.0,255.0,255.0",
+                 "intensity": 1.0,
+                 "direction": "-1, -1, 1",
+                 "enableShadow": 0
+                 }
+                 },
+                 {
+                 "name": "directLightRight3",
+                 "type": "directLight",
+                 "rotation": "0,0,0",
+                 "chirlden": [],
+                 "lightNodeSuppl":
+                 {
+                 "color": "255.0,255.0,255.0",
+                 "intensity": 1.0,
+                 "direction": "1, -1, -1",
+                 "enableShadow": 0
+                 }
+                 },
+                 {
+                 "name": "directLightRight4",
+                 "type": "directLight",
+                 "rotation": "0,0,0",
+                 "chirlden": [],
+                 "lightNodeSuppl":
+                 {
+                 "color": "255.0,255.0,255.0",
+                 "intensity": 1.0,
+                 "direction": "-1, -1, -1",
+                 "enableShadow": 0
+                 }
+                 },
+                 {
+                 "name": "ambientLight",
+                 "type": "ambientLight",
+                 "position": "0,0,1",
+                 "children": [],
+                 "lightNodeSuppl": {
+                 "color": "255.0,255.0,255.0",
+                 "intensity": 0.4
+                 }
+                 },
+                 {
+                 "name": "button_left",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.1,
+                 "marginTop": 0.8,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_right",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.4,
+                 "marginTop": 0.8,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_up",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.25,
+                 "marginTop": 0.7,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_down",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.25,
+                 "marginTop": 0.9,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_stop",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.25,
+                 "marginTop": 0.8,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_a",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.7,
+                 "marginTop": 0.7,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_b",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.9,
+                 "marginTop": 0.7,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_c",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.7,
+                 "marginTop": 0.9,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "button_d",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.9,
+                 "marginTop": 0.9,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "ResumeButton99",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.75,
+                 "marginTop": 0.2,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "ResumeButton100",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/resume.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.90,
+                 "marginTop": 0.2,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+    {
+            "name": "floor",
+            "type": "pod",
+            "visible": 1,
+            "touchable": 1,
+            "meshFileName": "res/model/floor.pod",
+            "material": {
+                "common": {
+                    "texturePath": "res/texture/",
+                    "disableLightEffect": 0
+                }
+            },
+            "materialExtend": {
+                "phong_Floor": {
+                    "type": "MESH_PHONG"
+                }
+            },
+            "position": "0,-3,0",
+            "scale": "30,30,30",
+            "rotation": "0,0,0",
+            "children": []
+        },
+
+                 {
+                 "name": "ball_blue",
+                 "type": "pod",
+                 "visible": 0,
+                 "touchable": 1,
+                 "meshFileName": "res/model/brick/ball_blue.pod",
+                 "material":
+                 {
+                 "common":
+                 {
+                 "texturePath": "res/texture/",
+                 "disableLightEffect": 0
+                 }
+                 },
+                 "materialExtend":
+                 {
+                 "lambert01":
+                 {
+                 "type": "MESH_PHYSICAL",
+                 "transparent": 0,
+                 "envBlendOperation": "MULTIPLY",
+                 "reflectivity": 0.6,
+                 "refractionRatio": 0.98,
+                 "roughness": 0.4,
+                 "metalness": 0.4,
+                 "envMapIntensity": 0.6,
+                 "clearCoat": 1.0,
+                 "clearCoatRoughness": 0.01
+                 }
+                 },
+                 "position": "0,0,0",
+                 "scale": "30,30,30",
+                 "rotation": "0,0,0",
+                 "chirlden": []
+                 },
+                 {
+                 "name": "brick_blue",
+                 "type": "pod",
+                 "visible": 0,
+                 "touchable": 1,
+                 "meshFileName": "res/model/brick/brick_blue.pod",
+                 "material":
+                 {
+                 "common":
+                 {
+                 "texturePath": "res/texture/",
+                 "disableLightEffect": 0
+                 }
+                 },
+                 "materialExtend":
+                 {
+                 "lambert1":
+                 {
+                 "type": "MESH_PHYSICAL",
+                 "transparent": 0,
+                 "envBlendOperation": "MULTIPLY",
+                 "reflectivity": 0.8,
+                 "refractionRatio": 0.98,
+                 "roughness": 0.4,
+                 "metalness": 0.4,
+                 "envMapIntensity": 0.6,
+                 "clearCoat": 1.0,
+                 "clearCoatRoughness": 0.01
+                 }
+                 },
+                 "position": "0,0,0",
+                 "scale": "150,150,150",
+                 "rotation": "0,0,0",
+                 "chirlden": []
+                 },
+                 {
+                 "name": "ball_red",
+                 "type": "pod",
+                 "visible": 0,
+                 "touchable": 1,
+                 "meshFileName": "res/model/brick/ball_red.pod",
+                 "material":
+                 {
+                 "common":
+                 {
+                 "texturePath": "res/texture/",
+                 "disableLightEffect": 0
+                 }
+                 },
+                 "materialExtend":
+                 {
+                 "lambert03":
+                 {
+                 "type": "MESH_PHYSICAL",
+                 "transparent": 0,
+                 "envBlendOperation": "MULTIPLY",
+                 "reflectivity": 0.6,
+                 "refractionRatio": 0.98,
+                 "roughness": 0.4,
+                 "metalness": 0.4,
+                 "envMapIntensity": 0.6,
+                 "clearCoat": 1.0,
+                 "clearCoatRoughness": 0.01
+                 }
+                 },
+                 "position": "0,0,0",
+                 "scale": "30,30,30",
+                 "rotation": "0,0,0",
+                 "chirlden": []
+                 },
+                 {
+                 "name": "brick_red",
+                 "type": "pod",
+                 "visible": 0,
+                 "touchable": 1,
+                 "meshFileName": "res/model/brick/brick_red.pod",
+                 "material":
+                 {
+                 "common":
+                 {
+                 "texturePath": "res/texture/",
+                 "disableLightEffect": 0
+                 }
+                 },
+                 "materialExtend":
+                 {
+                 "lambert3":
+                 {
+                 "type": "MESH_PHYSICAL",
+                 "transparent": 0,
+                 "envBlendOperation": "MULTIPLY",
+                 "reflectivity": 0.8,
+                 "refractionRatio": 0.98,
+                 "roughness": 0.4,
+                 "metalness": 0.4,
+                 "envMapIntensity": 0.6,
+                 "clearCoat": 1.0,
+                 "clearCoatRoughness": 0.01
+                 }
+                 },
+                 "position": "0,0,0",
+                 "scale": "150,150,150",
+                 "rotation": "0,0,0",
+                 "chirlden": []
+                 },
+                 {
+                 "name": "ball_green",
+                 "type": "pod",
+                 "visible": 0,
+                 "touchable": 1,
+                 "meshFileName": "res/model/brick/ball_green.pod",
+                 "material":
+                 {
+                 "common":
+                 {
+                 "texturePath": "res/texture/",
+                 "disableLightEffect": 0
+                 }
+                 },
+                 "materialExtend":
+                 {
+                 "lambert02":
+                 {
+                 "type": "MESH_PHYSICAL",
+                 "transparent": 0,
+                 "envBlendOperation": "MULTIPLY",
+                 "reflectivity": 0.6,
+                 "refractionRatio": 0.98,
+                 "roughness": 0.4,
+                 "metalness": 0.4,
+                 "envMapIntensity": 0.6,
+                 "clearCoat": 1.0,
+                 "clearCoatRoughness": 0.01
+                 }
+                 },
+                 "position": "0,0,0",
+                 "scale": "30,30,30",
+                 "rotation": "0,0,0",
+                 "chirlden": []
+                 },
+                 {
+                 "name": "brick_green",
+                 "type": "pod",
+                 "visible": 0,
+                 "touchable": 1,
+                 "meshFileName": "res/model/brick/brick_green.pod",
+                 "material":
+                 {
+                 "common":
+                 {
+                 "texturePath": "res/texture/",
+                 "disableLightEffect": 0
+                 }
+                 },
+                 "materialExtend":
+                 {
+                 "lambert2":
+                 {
+                 "type": "MESH_PHYSICAL",
+                 "transparent": 0,
+                 "envBlendOperation": "MULTIPLY",
+                 "reflectivity": 0.8,
+                 "refractionRatio": 0.98,
+                 "roughness": 0.4,
+                 "metalness": 0.4,
+                 "envMapIntensity": 0.6,
+                 "clearCoat": 1.0,
+                 "clearCoatRoughness": 0.01
+                 }
+                 },
+                 "position": "0,0,0",
+                 "scale": "150,150,150",
+                 "rotation": "0,0,0",
+                 "chirlden": []
+                 },
+                 {
+                 "name": "button_shot",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/blue.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.8,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.25
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "aim",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/aim.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.5,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.15
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "time_html",
+                 "type": "webview",
+                 "touchable": 1,
+                 "visible": 0,
+                 "material": {
+                 "common": {
+                 "textureType": "webview",
+                 "defaultShaderName":"webviewShader"
+                 },
+                 "android": {
+                 "defaultShaderName": "androidWebViewShader",
+                 "textureType": "webview"
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.3,
+                 "marginTop": 0.2,
+                 "depthPosition": -1000,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.3
+                 }
+                 },
+                 "position": "0,400,0",
+                 "scale": "100,100,100",
+                 "rotation": "90, 0, 0",
+                 "children": []
+                 },
+                 {
+                 "name": "score_html",
+                 "type": "webview",
+                 "touchable": 1,
+                 "visible": 0,
+                 "material": {
+                 "common": {
+                 "textureType": "webview",
+                 "defaultShaderName":"webviewShader"
+                 },
+                 "android": {
+                 "defaultShaderName": "androidWebViewShader",
+                 "textureType": "webview"
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.7,
+                 "marginTop": 0.2,
+                 "depthPosition": -1000,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.3
+                 }
+                 },
+                 "position": "0,600,0",
+                 "scale": "100,100,100",
+                 "rotation": "90, 0, 0",
+                 "children": []
+                 },
+                 {
+                 "name": "gameover",
+                 "type": "plane",
+                 "visible": 0,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/gameover.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.5,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.8,
+                 "keepAspectRatio":1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "normal",
+                 "type": "plane",
+                 "visible": 1,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/normal.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.4,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.5,
+                 "keepAspectRatio":1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "hard",
+                 "type": "plane",
+                 "visible": 1,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/hard.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.6,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.5,
+                 "keepAspectRatio":1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "crazy",
+                 "type": "plane",
+                 "visible": 1,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/crazy.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.8,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.5,
+                 "keepAspectRatio":1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 },
+                 {
+                 "name": "title",
+                 "type": "plane",
+                 "visible": 1,
+                 "touchable": 1,
+                 "material": {
+                 "common": {
+                 "textureList": [
+                                 {
+                                 "textureName": "res/texture/title.png"
+                                 }
+                                 ]
+                 }
+                 },
+                 "hudDisplay": {
+                 "marginLeft": 0.5,
+                 "marginTop": 0.2,
+                 "depthPosition": 0,
+                 "screenRatio": {
+                 "screenWidthRatio": 0.95,
+                 "keepAspectRatio":1
+                 }
+                 },
+                 "transparentObject": 1,
+                 "position": "100,0,0",
+                 "rotation": "90,0,0",
+                 "children": []
+                 }
+                 
+    ]
+}

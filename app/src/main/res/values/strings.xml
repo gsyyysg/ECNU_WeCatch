@@ -9,6 +9,14 @@
 <string name="error_incorrect_password">This password is incorrect</string>
 <string name="error_field_required">This field is required</string>
 <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
+<string name="app_name">AR sample</string>
+<string name="app_title">DuMix AR Demo</string>
+<string name="take_picture">拍照</string>
+<string name="start_record">开始录像</string>
+<string name="stop_record">停止录像</string>
+
+<string name="auth_fail">授权失败</string>
+
+
 </resources>

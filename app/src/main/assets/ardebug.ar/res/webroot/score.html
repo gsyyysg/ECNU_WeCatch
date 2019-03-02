@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <style type="text/css">
+    p.text1 {
+        margin: 0.0 0.0 0.0 0.0;
+        line-height: 56.0px;
+        font: 288.0px "PingFang SC";
+        color: #fff100;
+        -webkit-text-stroke: #f00;
+        }
+    span.s1 {
+        font-kerning: none;
+    }
+  </style>
+</head>
+<body>
+    <p class="text1" id = "content">score: 0</p>
+</body>
+<script type="text/javascript">
+    function changeword(msg) {
+        $('#content').text(msg);
+    }
+</script>
+</html>

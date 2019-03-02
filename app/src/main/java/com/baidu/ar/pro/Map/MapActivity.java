@@ -6,22 +6,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.baidu.ar.bean.DuMixARConfig;
 import com.baidu.ar.pro.AR.ARActivity;
-import com.baidu.ar.pro.AR.Config;
+import com.baidu.ar.pro.AR.utils.AssetsCopyToSdcard;
 import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
 import com.baidu.ar.pro.Collection.CollectionActivity;
 import com.baidu.ar.pro.R;
 import com.baidu.ar.pro.Task.TaskListActivity;
+import com.baidu.ar.util.Res;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDNotifyListener;
@@ -39,13 +45,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapActivity extends Activity {
 
-
-    private String[] mArName;
 
     private MapView mMapView;
 
@@ -68,21 +73,21 @@ public class MapActivity extends Activity {
     private ImageButton chatRoomButton;
 
     private RelativeLayout menuLayout;
+
+
+    public static final String ASSETS_CASE_FOLDER = "ardebug";
+    public static final String DEFAULT_PATH =
+            Environment.getExternalStorageDirectory().toString() + "/" + ASSETS_CASE_FOLDER;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-        // 设置App Id
-        DuMixARConfig.setAppId("15625068");
-        // 设置API Key
-        DuMixARConfig.setAPIKey("ypi61GAHvb0bItBsF2WWmk0G");
-        // 设置Secret Key
-        DuMixARConfig.setSecretKey("lGvFFnwGonUfOoH1hcfct0kZ5YaT0NjP");
 
         super.onCreate(savedInstanceState);
 
         //个性化地图
         setMapCustomFile(this, "custom_map_config.json");
+
+
 
         setContentView(R.layout.map_layout);
 
@@ -112,6 +117,8 @@ public class MapActivity extends Activity {
         //调用BDNotifyListener的setNotifyLocation方法，实现设置位置消息提醒。
         //设置位置提醒，四个参数分别是：纬度、精度、半径、坐标类型
         myListener.SetNotifyLocation(0f, 0f, 3000, mLocationClient.getLocOption().getCoorType());
+
+        initLocationOption();
 
         //申请权限
         List<String> permissionList=new ArrayList<>();
@@ -172,10 +179,11 @@ public class MapActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MapActivity.this, ARActivity.class);
                 Bundle bundle = new Bundle();
-                MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299285", null, mArName[0]);
-                bundle.putString(Config.AR_KEY, listItemBean.getARKey());
-                bundle.putInt(Config.AR_TYPE, listItemBean.getARType());
-                bundle.putString(Config.AR_FILE, listItemBean.getCasePath());
+                MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299285", null);
+                bundle.putString("ar_key", listItemBean.getARKey());
+                bundle.putInt("ar_type", listItemBean.getARType());
+                bundle.putString("ar_path", listItemBean.getARPath());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -252,20 +260,17 @@ public class MapActivity extends Activity {
 
     private void initData() {
         Resources res = getResources();
-        mArName = res.getStringArray(R.array.ar_name);
     }
 
     private class ListItemBean {
         String mARKey;
         int mARType;
-        String mCasePath;
-        String mName;
+        String mARPath;
 
-        public ListItemBean(int arType, String arKey, String path, String name) {
+        ListItemBean(int arType, String arKey, String arPath) {
             this.mARType = arType;
             this.mARKey = arKey;
-            this.mName = name;
-            this.mCasePath = path;
+            this.mARPath = arPath;
         }
 
         public String getARKey() {
@@ -276,8 +281,36 @@ public class MapActivity extends Activity {
             return mARType;
         }
 
-        public String getCasePath() {
-            return mCasePath;
+        public String getARPath() {
+            return mARPath;
+        }
+    }
+
+    public static class CopyFileTask extends AsyncTask {
+        private final Intent intent;
+        private final WeakReference<Context> contextRef;
+
+        public CopyFileTask(Intent intent, Context context) {
+            this.intent = intent;
+            this.contextRef = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            Context context = contextRef.get();
+            if (context != null) {
+                AssetsCopyToSdcard assetsCopyTOSDcard = new AssetsCopyToSdcard(context);
+                assetsCopyTOSDcard.assetToSD(ASSETS_CASE_FOLDER, DEFAULT_PATH);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            if (contextRef.get() != null) {
+                Toast.makeText(contextRef.get(), "拷贝完成", Toast.LENGTH_SHORT).show();
+                contextRef.get().startActivity(intent);
+            }
         }
     }
 
