@@ -74,51 +74,22 @@ public class MapActivity extends Activity {
 
     private RelativeLayout menuLayout;
 
-
-    public static final String ASSETS_CASE_FOLDER = "ardebug";
-    public static final String DEFAULT_PATH =
-            Environment.getExternalStorageDirectory().toString() + "/" + ASSETS_CASE_FOLDER;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        //个性化地图
         setMapCustomFile(this, "custom_map_config.json");
-
-
 
         setContentView(R.layout.map_layout);
 
-        //地图
-        //获取地图控件引用
         mMapView = findViewById(R.id.bmapView);
-        //定位初始化
-        mBaiduMap = mMapView.getMap();
-        mBaiduMap.setMyLocationEnabled(true);
-        //自定义地图
-        mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,
-                true,
-                BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher_background),
-                0xffffffff,
-                0xffffffff));
-        //默认缩放
-        MapStatus.Builder builder = new MapStatus.Builder();
-        builder.zoom(20.0f);
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-        //关闭缩放工具
-        mMapView.showZoomControls(true);
-
-        //监听位置
-        mLocationClient = new LocationClient(getApplicationContext());
-        //注册监听函数
-        mLocationClient.registerNotify(myListener);
-        //调用BDNotifyListener的setNotifyLocation方法，实现设置位置消息提醒。
-        //设置位置提醒，四个参数分别是：纬度、精度、半径、坐标类型
-        myListener.SetNotifyLocation(0f, 0f, 3000, mLocationClient.getLocOption().getCoorType());
-
-        initLocationOption();
+        menuLayout = findViewById(R.id.menu_layout);
+        cameraButton = findViewById(R.id.camera_button);
+        menuButton = findViewById(R.id.menu_button);
+        missionButton = findViewById(R.id.mission_button);
+        informationButton = findViewById(R.id.information_button);
+        collectionButton = findViewById(R.id.collection_button);
 
         //申请权限
         List<String> permissionList=new ArrayList<>();
@@ -142,13 +113,34 @@ public class MapActivity extends Activity {
             String[] permissions=permissionList.toArray(new String[permissionList.size()]);
             ActivityCompat.requestPermissions(MapActivity.this,permissions,1);
         }
+
+        /**
+         * 地图部分
+         */
+        mBaiduMap = mMapView.getMap();
+        mBaiduMap.setMyLocationEnabled(true);
+        //自定义定位
+        mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,
+                true,
+                null,
+                0xffffffff,
+                0xffffffff));
+        //默认缩放
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.zoom(20.0f);
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        //关闭缩放工具
+        mMapView.showZoomControls(true);
+        //监听位置
+        mLocationClient = new LocationClient(getApplicationContext());
+        //注册监听函数
+        mLocationClient.registerNotify(myListener);
+        //设置位置提醒，四个参数分别是：纬度、精度、半径、坐标类型
+        myListener.SetNotifyLocation(31.227652653f, 121.4047728592f, 3000, mLocationClient.getLocOption().getCoorType());
         initLocationOption();
 
         initData();
 
-        cameraButton = findViewById(R.id.camera_button);
-        menuButton = findViewById(R.id.menu_button);
-        collectionButton = findViewById(R.id.collection_button);
         collectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,7 +148,6 @@ public class MapActivity extends Activity {
                 startActivity(intent);
             }
         });
-        missionButton = findViewById(R.id.mission_button);
         missionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,7 +155,6 @@ public class MapActivity extends Activity {
                 startActivity(intent);
             }
         });
-        informationButton = findViewById(R.id.information_button);
         chatRoomButton = findViewById(R.id.chatroom_button);
         chatRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +163,6 @@ public class MapActivity extends Activity {
                 startActivity(intent);
             }
         });
-        cameraButton = findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,8 +177,6 @@ public class MapActivity extends Activity {
                 startActivity(intent);
             }
         });
-        menuLayout = findViewById(R.id.menu_layout);
-
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,7 +225,6 @@ public class MapActivity extends Activity {
             if (file.exists()) file.delete();
             file.createNewFile();
             fileOutputStream = new FileOutputStream(file);
-            //将自定义样式文件写入本地
             fileOutputStream.write(b);
         } catch (IOException e) {
             e.printStackTrace();
@@ -254,7 +240,6 @@ public class MapActivity extends Activity {
                 e.printStackTrace();
             }
         }
-        //设置自定义样式文件
         MapView.setCustomMapStylePath(moduleName + "/" + fileName);
     }
 
@@ -286,74 +271,28 @@ public class MapActivity extends Activity {
         }
     }
 
-    public static class CopyFileTask extends AsyncTask {
-        private final Intent intent;
-        private final WeakReference<Context> contextRef;
-
-        public CopyFileTask(Intent intent, Context context) {
-            this.intent = intent;
-            this.contextRef = new WeakReference<>(context);
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            Context context = contextRef.get();
-            if (context != null) {
-                AssetsCopyToSdcard assetsCopyTOSDcard = new AssetsCopyToSdcard(context);
-                assetsCopyTOSDcard.assetToSD(ASSETS_CASE_FOLDER, DEFAULT_PATH);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            if (contextRef.get() != null) {
-                Toast.makeText(contextRef.get(), "拷贝完成", Toast.LENGTH_SHORT).show();
-                contextRef.get().startActivity(intent);
-            }
-        }
-    }
-
     private void initLocationOption() {
-        //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
-        //声明LocationClient类实例并配置定位参数
         LocationClientOption locationOption = new LocationClientOption();
         MyLocationListener myLocationListener = new MyLocationListener();
-        //注册监听函数
         mLocationClient.registerLocationListener(myLocationListener);
-        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        //精度
         locationOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         locationOption.setCoorType("bd09ll");
-        //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
+        //默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
         locationOption.setScanSpan(1000);
-        //可选，设置是否需要地址信息，默认不需要
-        locationOption.setIsNeedAddress(true);
-        //可选，设置是否需要地址描述
-        locationOption.setIsNeedLocationDescribe(true);
-        //可选，设置是否需要设备方向结果
-        locationOption.setNeedDeviceDirect(false);
-        //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
+        //设置是否需要设备方向结果
+        locationOption.setNeedDeviceDirect(true);
+        //默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
         locationOption.setLocationNotify(true);
-        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        locationOption.setIgnoreKillProcess(true);
-        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        locationOption.setIsNeedLocationDescribe(true);
-        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        //默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
         locationOption.setIsNeedLocationPoiList(true);
-        //可选，默认false，设置是否收集CRASH信息，默认收集
+        //默认false，设置是否收集CRASH信息，默认收集
         locationOption.SetIgnoreCacheException(false);
-        //可选，默认false，设置是否开启Gps定位
+        //默认false，设置是否开启Gps定位
         locationOption.setOpenGps(true);
-        //可选，默认false，设置定位时是否需要海拔信息，默认不需要，除基础定位版本都可用
-        locationOption.setIsNeedAltitude(false);
-        //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
-        locationOption.setOpenAutoNotifyMode();
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
         locationOption.setOpenAutoNotifyMode(3000,1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
-        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
         mLocationClient.setLocOption(locationOption);
-        //开始定位
         mLocationClient.start();
     }
     /**
@@ -366,27 +305,13 @@ public class MapActivity extends Activity {
             if (location == null || mMapView == null){
                 return;
             }
-            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-            if (location.getLocType() == BDLocation.TypeOffLineLocation) {
-
-                // 离线定位成功
-                Log.i("baidu_location_result", "offline location success");
-                double lat = location.getLatitude();
-                double lon = location.getLongitude();
-
-            } else if (location.getLocType() == BDLocation.TypeOffLineLocationFail) {
-                // 离线定位失败
-                Log.i("baidu_location_result", "offline location fail");
-            } else {
-
-                Log.i("baidu_location_result", "location type = " + location.getLocType());
-            }
 
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(location.getDirection()).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
+                    .direction(location.getDirection())
+                    .latitude(location.getLatitude())
+                    .longitude(location.getLongitude())
+                    .build();
             mBaiduMap.setMyLocationData(locData);
 
         }
