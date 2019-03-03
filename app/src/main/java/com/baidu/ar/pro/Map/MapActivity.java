@@ -34,12 +34,16 @@ import com.baidu.location.BDNotifyListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -122,21 +126,19 @@ public class MapActivity extends Activity {
         //自定义定位
         mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,
                 true,
-                null,
-                0xffffffff,
-                0xffffffff));
+                null));
         //默认缩放
         MapStatus.Builder builder = new MapStatus.Builder();
         builder.zoom(20.0f);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         //关闭缩放工具
-        mMapView.showZoomControls(true);
+        mMapView.showZoomControls(false);
         //监听位置
         mLocationClient = new LocationClient(getApplicationContext());
         //注册监听函数
         mLocationClient.registerNotify(myListener);
         //设置位置提醒，四个参数分别是：纬度、精度、半径、坐标类型
-        myListener.SetNotifyLocation(31.227652653f, 121.4047728592f, 3000, mLocationClient.getLocOption().getCoorType());
+        myListener.SetNotifyLocation(31.2328910211, 121.4129429701, 3000, mLocationClient.getLocOption().getCoorType());
         initLocationOption();
 
         initData();
