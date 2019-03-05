@@ -1,5 +1,6 @@
 package com.baidu.ar.pro.Collection;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
 
         public ViewHolder(View view){
             super(view);
-            colleciton_image=(ImageView) view.findViewById(R.id.collectioin_image);
+            colleciton_image=view.findViewById(R.id.collectioin_image);
         }
     }
 
-    public CollectionAdapter(List<Collection> collectionList){
-        mCollectionList = collectionList;
+    public CollectionAdapter(List<Collection> collecTionList){
+        mCollectionList = collecTionList;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Collection collection = mCollectionList.get(position);
-        holder.colleciton_image.setImageResource(collection.getImageId());
+        holder.colleciton_image.setImageResource(collection.getCollection_imageId());
     }
 
     @Override

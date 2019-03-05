@@ -2,10 +2,15 @@ package com.baidu.ar.pro.Collection;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.baidu.ar.pro.R;
 
@@ -14,7 +19,7 @@ import java.util.List;
 
 public class CollectionActivity extends Activity {
 
-    private List<Collection> collectionList = new ArrayList<>();
+    private List<Collection> collecTionList = new ArrayList<>();
     RecyclerView mrecyclerview;
     GridLayoutManager mlayoutManager;
 
@@ -25,7 +30,7 @@ public class CollectionActivity extends Activity {
         setContentView(R.layout.collection_layout);
         findview();
         initCollection();
-        CollectionAdapter adapter = new CollectionAdapter(collectionList);
+        CollectionAdapter adapter = new CollectionAdapter(collecTionList);
         mrecyclerview.setAdapter(adapter);
     }
 
@@ -41,16 +46,16 @@ public class CollectionActivity extends Activity {
 
     private void initCollection()  //之后应该正经从数据库加载
     {
-        Collection aiji = new Collection("埃及猫",R.drawable.aiji_pic); collectionList.add(aiji);
-        Collection amercancurcat = new Collection("美国短毛猫",R.drawable.amercancurlcat_pic); collectionList.add(amercancurcat);
-        Collection bolila = new Collection("波米拉猫",R.drawable.bolila_pic); collectionList.add(bolila);
-        Collection bosicat = new Collection("波斯猫",R.drawable.bosicat_pic); collectionList.add(bosicat);
-        Collection britishcat = new Collection("英国短毛猫",R.drawable.british_pic); collectionList.add(britishcat);
-        Collection dollcat = new Collection("布偶猫",R.drawable.buoumao_pic); collectionList.add(dollcat);
-        Collection yiguo = new Collection("异国短毛猫",R.drawable.yiguoduanmao_pic); collectionList.add(yiguo);
-        Collection norwaycat = new Collection("挪威猫",R.drawable.norway_pic); collectionList.add(norwaycat);
-        Collection sugelancat = new Collection("苏格兰折耳猫",R.drawable.sglzheer_pic); collectionList.add(sugelancat);
-        Collection xinjiapocat = new Collection("新加坡猫",R.drawable.xinjiapo_pic); collectionList.add(xinjiapocat);
+        Collection aiji = new Collection(1,R.drawable.collection1); collecTionList.add(aiji);
+        Collection amercancurcat = new Collection(2,R.drawable.collection2); collecTionList.add(amercancurcat);
+        Collection bolila = new Collection(3,R.drawable.collection3); collecTionList.add(bolila);
+        Collection bosicat = new Collection(4,R.drawable.collection4); collecTionList.add(bosicat);
+        Collection britishcat = new Collection(5,R.drawable.collection5); collecTionList.add(britishcat);
+        Collection dollcat = new Collection(6,R.drawable.collection6); collecTionList.add(dollcat);
+        Collection yiguo = new Collection(7,R.drawable.collection7); collecTionList.add(yiguo);
+        Collection norwaycat = new Collection(8,R.drawable.collection8); collecTionList.add(norwaycat);
+        Collection sugelancat = new Collection(9,R.drawable.collection9); collecTionList.add(sugelancat);
+        Collection xinjiapocat = new Collection(10,R.drawable.collection10); collecTionList.add(xinjiapocat);
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration{

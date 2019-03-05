@@ -3,24 +3,59 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
         android:id="@+id/image"
         android:scaleType="fitXY"
-        android:alpha="0.7"
-        android:src="@drawable/ic_launcher_background"/>
+        android:alpha="0.7" />
+
+    <TextView
+        android:id="@+id/item_used"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:layout_below="@id/task_item"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="item被多少人使用"
+        />
+
+    <Button
+        android:id="@+id/task_button"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:text="status"
+        android:textSize="9sp"
+        android:textColor="#32CD99"
+
+        />
+
 
 
     <TextView
-        android:id="@+id/item"
-        android:layout_width="match_parent"
+        android:id="@+id/task_item"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/image"
+        android:layout_marginTop="20dp"
         android:gravity="left"
-        android:text="这是一个item"
-        android:textColor="#22dddd"
+        android:text="item的名字"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000000"
         android:textSize="20sp" />
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#545454"
+        android:layout_below="@id/image"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        />
 </RelativeLayout>
