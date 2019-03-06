@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -7,72 +8,134 @@
     android:layout_height="match_parent"
     tools:context=".Map.MapActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapActivity">
-
-        <com.baidu.mapapi.map.MapView
-            android:id="@+id/bmapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true" />
-
-    </LinearLayout>
+        tools:layout_editor_absoluteX="133dp"
+        tools:layout_editor_absoluteY="63dp" />
 
     <ImageButton
         android:id="@+id/camera_button"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="500dp"
-        android:background="@drawable/photo" />
+        android:background="@drawable/photo"
+        app:layout_constraintBottom_toBottomOf="@+id/bmapView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bmapView"
+        app:layout_constraintVertical_bias="0.8" />
 
     <ImageButton
         android:id="@+id/menu_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/chevrondown" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/chevrondown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05" />
 
     <RelativeLayout
         android:id="@+id/menu_layout"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/chatroom_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/friends" />
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/collection_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            <ImageButton
+                android:id="@+id/chatroom_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/friends" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="聊天室"
+                android:textColor="@color/bdar_dialog_blue_line"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/app" />
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/information_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            <ImageButton
+                android:id="@+id/collection_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/app" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="我的收藏"
+                android:textColor="@color/bdar_dialog_blue_line"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/user" />
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/mission_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/event" />
+            <ImageButton
+                android:id="@+id/information_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/user" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="个人信息"
+                android:textColor="@color/bdar_dialog_blue_line"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mission_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/event" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="我的任务"
+                android:textColor="@color/bdar_dialog_blue_line"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </RelativeLayout>
-</FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

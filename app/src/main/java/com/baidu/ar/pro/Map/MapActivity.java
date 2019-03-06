@@ -123,6 +123,7 @@ public class MapActivity extends Activity {
          */
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
+        MapView.setMapCustomEnable(true);
         //自定义定位
         mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,
                 true,
