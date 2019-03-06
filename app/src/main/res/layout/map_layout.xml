@@ -27,7 +27,7 @@
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="500dp"
-        android:background="@color/colorAccent" />
+        android:background="@drawable/photo" />
 
     <ImageButton
         android:id="@+id/menu_button"
@@ -36,7 +36,7 @@
         android:layout_marginStart="300dp"
         android:layout_marginLeft="300dp"
         android:layout_marginTop="50dp"
-        android:background="@color/colorAccent" />
+        android:background="@drawable/chevrondown" />
 
     <RelativeLayout
         android:id="@+id/menu_layout"
@@ -50,7 +50,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorAccent" />
+            android:background="@drawable/friends" />
 
         <ImageButton
             android:id="@+id/collection_button"
@@ -58,7 +58,7 @@
             android:layout_height="100dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@color/colorAccent" />
+            android:background="@drawable/app" />
 
         <ImageButton
             android:id="@+id/information_button"
@@ -67,12 +67,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorAccent" />
+            android:background="@drawable/user" />
 
         <ImageButton
             android:id="@+id/mission_button"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@color/colorAccent" />
+            android:background="@drawable/event" />
     </RelativeLayout>
 </FrameLayout>

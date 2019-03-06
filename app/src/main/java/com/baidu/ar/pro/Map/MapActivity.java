@@ -185,10 +185,12 @@ public class MapActivity extends Activity {
                 if(menuLayout.getVisibility() == View.GONE) {
                     menuLayout.setVisibility(View.VISIBLE);
                     cameraButton.setVisibility(View.GONE);
+                    menuButton.setBackground(getResources().getDrawable(R.drawable.chevronup));
                 }
                 else if(menuLayout.getVisibility() == View.VISIBLE) {
                     menuLayout.setVisibility(View.GONE);
                     cameraButton.setVisibility(View.VISIBLE);
+                    menuButton.setBackground(getResources().getDrawable(R.drawable.chevrondown));
                 }
             }
         });

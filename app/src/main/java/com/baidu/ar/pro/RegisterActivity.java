@@ -11,15 +11,15 @@ import android.widget.Button;
 
 public class RegisterActivity extends Activity {
 
-    private Button emailSubmitButton;
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        emailSubmitButton = findViewById(R.id.email_submit_button);
-        emailSubmitButton.setOnClickListener(new OnClickListener() {
+        submitButton = findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

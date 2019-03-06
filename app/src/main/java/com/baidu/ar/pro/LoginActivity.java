@@ -14,17 +14,16 @@ import com.baidu.ar.pro.Map.MapActivity;
 
 public class LoginActivity extends Activity {
 
-    private EditText mPasswordView;
-    private Button emailLoginButton;
-    private Button emailTryButton;
-    private Button emailRegisterButton;
+    private Button loginButton;
+    private Button touristButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        emailTryButton = findViewById(R.id.email_try_button);
-        emailTryButton.setOnClickListener(new View.OnClickListener() {
+        touristButton = findViewById(R.id.tourist_button);
+        touristButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, MapActivity.class);
@@ -32,8 +31,8 @@ public class LoginActivity extends Activity {
             }
         });
 
-        emailRegisterButton = findViewById(R.id.email_register_button);
-        emailRegisterButton.setOnClickListener(new View.OnClickListener() {
+        registerButton = findViewById(R.id.register_button);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -41,8 +40,8 @@ public class LoginActivity extends Activity {
             }
         });
 
-        emailLoginButton = findViewById(R.id.email_sign_in_button);
-        emailLoginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton = findViewById(R.id.sign_in_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, MapActivity.class);
