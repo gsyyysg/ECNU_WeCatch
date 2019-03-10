@@ -97,7 +97,6 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/bdar_camera_switch_tip"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"/>
     </com.baidu.ar.ui.rotateview.RotateViewGroup>

@@ -73,16 +73,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                 break;
         }
     }
-
-
-
-    /*@Override
-    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        if(payloads.isEmpty())
-            onBindViewHolder(holder,position);
-        else onBindViewHolder(holder,position);
-    }*/
-
-
-
 }

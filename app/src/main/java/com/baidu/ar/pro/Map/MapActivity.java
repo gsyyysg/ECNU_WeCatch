@@ -25,6 +25,7 @@ import com.baidu.ar.pro.AR.ARActivity;
 import com.baidu.ar.pro.AR.utils.AssetsCopyToSdcard;
 import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
 import com.baidu.ar.pro.Collection.CollectionActivity;
+import com.baidu.ar.pro.Information.InformationActivity;
 import com.baidu.ar.pro.R;
 import com.baidu.ar.pro.Task.TaskListActivity;
 import com.baidu.ar.util.Res;
@@ -94,6 +95,7 @@ public class MapActivity extends Activity {
         missionButton = findViewById(R.id.mission_button);
         informationButton = findViewById(R.id.information_button);
         collectionButton = findViewById(R.id.collection_button);
+        chatRoomButton = findViewById(R.id.chatroom_button);
 
         //申请权限
         List<String> permissionList=new ArrayList<>();
@@ -158,11 +160,17 @@ public class MapActivity extends Activity {
                 startActivity(intent);
             }
         });
-        chatRoomButton = findViewById(R.id.chatroom_button);
         chatRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MapActivity.this, ChatRoomActivity.class);
+                startActivity(intent);
+            }
+        });
+        informationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapActivity.this, InformationActivity.class);
                 startActivity(intent);
             }
         });

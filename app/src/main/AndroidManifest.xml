@@ -47,6 +47,8 @@
         <activity android:name=".Collection.CollectionActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".Map.MapActivity"></activity>
+        <activity android:name=".Information.InformationActivity"></activity>
+        <activity android:name=".settingActivity"></activity>
 
         <service android:name="com.baidu.location.f"
             android:enabled="true"
