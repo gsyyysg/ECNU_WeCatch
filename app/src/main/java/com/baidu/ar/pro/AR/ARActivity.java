@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.baidu.ar.ARFragment;
 import com.baidu.ar.constants.ARConfigKey;
 import com.baidu.ar.pro.R;
 
@@ -15,12 +14,13 @@ import org.json.JSONObject;
 public class ARActivity extends FragmentActivity {
 
 
-    private ARFragment mARFragment;
+    private mFragment mARFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
+
         if (findViewById(R.id.bdar_id_fragment_container) != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -42,9 +42,8 @@ public class ARActivity extends FragmentActivity {
                 e.printStackTrace();
             }
             data.putString(ARConfigKey.AR_VALUE, jsonObj.toString());
-            mARFragment = new ARFragment();
+            mARFragment = new mFragment();
             mARFragment.setArguments(data);
-            // 将trackArFragment设置到布局上
             fragmentTransaction.replace(R.id.bdar_id_fragment_container, mARFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }

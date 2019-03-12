@@ -126,4 +126,10 @@
             android:background="@color/bdar_night_mode_cover_color"
             android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/collect_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"/>
+
 </FrameLayout>

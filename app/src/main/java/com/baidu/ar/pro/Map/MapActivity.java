@@ -6,51 +6,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.baidu.ar.bean.DuMixARConfig;
 import com.baidu.ar.pro.AR.ARActivity;
-import com.baidu.ar.pro.AR.utils.AssetsCopyToSdcard;
 import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
 import com.baidu.ar.pro.Collection.CollectionActivity;
 import com.baidu.ar.pro.Information.InformationActivity;
 import com.baidu.ar.pro.R;
 import com.baidu.ar.pro.Task.TaskListActivity;
-import com.baidu.ar.util.Res;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDNotifyListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.model.LatLng;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +64,8 @@ public class MapActivity extends Activity {
 
     private RelativeLayout menuLayout;
 
+    private String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -96,6 +83,12 @@ public class MapActivity extends Activity {
         informationButton = findViewById(R.id.information_button);
         collectionButton = findViewById(R.id.collection_button);
         chatRoomButton = findViewById(R.id.chatroom_button);
+
+        //读取来自LoginActivity的用户信息数据
+        email = getIntent().getStringExtra("Email");
+        //从后端获取用户信息，包括：任务领取情况，任务完成情况
+
+        //
 
         //申请权限
         List<String> permissionList=new ArrayList<>();
@@ -185,6 +178,11 @@ public class MapActivity extends Activity {
                 bundle.putString("ar_path", listItemBean.getARPath());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtras(bundle);
+
+                //判断是否到达地点以及到达了哪个藏品的地点
+
+                //将藏品信息传递给ARActivity
+
                 startActivity(intent);
             }
         });

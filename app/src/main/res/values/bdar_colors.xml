@@ -35,4 +35,5 @@
     <!-- 夜间模式颜色值 -->
     <color name="bdar_night_mode_cover_color">#80000000</color>
 
+    <color name="transparent">#00000000</color>
 </resources>

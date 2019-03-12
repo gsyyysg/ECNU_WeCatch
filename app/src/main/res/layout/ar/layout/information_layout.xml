@@ -9,7 +9,7 @@
     android:paddingRight="16dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/portrait_image"
         android:layout_width="130dp"
         android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
@@ -20,7 +20,7 @@
         android:background="@drawable/avatar" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nick_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -28,12 +28,12 @@
         android:text="昵称"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/portrait_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.43" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/email_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -41,8 +41,8 @@
         android:layout_marginTop="16dp"
         android:text="Email"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/portrait_image"
+        app:layout_constraintTop_toBottomOf="@+id/nick_name_text" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
