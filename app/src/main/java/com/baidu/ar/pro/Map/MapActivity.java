@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baidu.ar.pro.AR.ARActivity;
 import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
@@ -62,9 +64,25 @@ public class MapActivity extends Activity {
 
     private ImageButton chatRoomButton;
 
+    private TextView collectionText;
+
+    private TextView missionText;
+
+    private TextView informationText;
+
+    private TextView chatroomText;
+
     private RelativeLayout menuLayout;
 
     private String email;
+
+    private double longtitude;
+
+    private double latitude;
+
+    private TextView locationInformation;
+
+    private int reachCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +101,21 @@ public class MapActivity extends Activity {
         informationButton = findViewById(R.id.information_button);
         collectionButton = findViewById(R.id.collection_button);
         chatRoomButton = findViewById(R.id.chatroom_button);
+        collectionText = findViewById(R.id.collection_text);
+        missionText = findViewById(R.id.mission_text);
+        informationText = findViewById(R.id.information_text);
+        chatroomText = findViewById(R.id.chatroom_text);
+
+        //改变字体
+        collectionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+        missionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+        informationText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+        chatroomText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
 
         //读取来自LoginActivity的用户信息数据
         email = getIntent().getStringExtra("Email");
         //从后端获取用户信息，包括：任务领取情况，任务完成情况
 
-        //
 
         //申请权限
         List<String> permissionList=new ArrayList<>();
@@ -137,6 +164,8 @@ public class MapActivity extends Activity {
         myListener.SetNotifyLocation(31.2328910211, 121.4129429701, 3000, mLocationClient.getLocOption().getCoorType());
         initLocationOption();
 
+        locationInformation = findViewById(R.id.location_information);
+
         initData();
 
         collectionButton.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +202,7 @@ public class MapActivity extends Activity {
                 Intent intent = new Intent(MapActivity.this, ARActivity.class);
                 Bundle bundle = new Bundle();
                 MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299285", null);
+                bundle.putInt("collection", 666);
                 bundle.putString("ar_key", listItemBean.getARKey());
                 bundle.putInt("ar_type", listItemBean.getARType());
                 bundle.putString("ar_path", listItemBean.getARPath());
@@ -317,6 +347,10 @@ public class MapActivity extends Activity {
                 return;
             }
 
+            longtitude = location.getLongitude();
+            latitude = location.getLatitude();
+            locationInformation.setText("我的经度：" + longtitude +"\n我的纬度："+latitude+"\n目标经度："+121.4129429701+"\n目标纬度："+31.2328910211);
+
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                     .direction(location.getDirection())
@@ -335,6 +369,9 @@ public class MapActivity extends Activity {
                     .setTitle("到达位置")//标题
                     .create();
             alertDialog1.show();
+
+            //标记到达了哪个藏品
+            //reachCollection = 666;
         }
     }
 }

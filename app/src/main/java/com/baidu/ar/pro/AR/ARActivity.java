@@ -42,6 +42,7 @@ public class ARActivity extends FragmentActivity {
                 e.printStackTrace();
             }
             data.putString(ARConfigKey.AR_VALUE, jsonObj.toString());
+            data.putInt("collection",getIntent().getExtras().getInt("collection"));
             mARFragment = new mFragment();
             mARFragment.setArguments(data);
             fragmentTransaction.replace(R.id.bdar_id_fragment_container, mARFragment);
