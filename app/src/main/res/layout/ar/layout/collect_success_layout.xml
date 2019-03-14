@@ -7,10 +7,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/TextView"
+        android:id="@+id/collect_success_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="收藏成功！"
+        android:textColor="@color/bdar_dialog_blue_line"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +42,7 @@
         android:id="@+id/introduction_text"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="暂无介绍"
+        android:text="我是一只猫"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

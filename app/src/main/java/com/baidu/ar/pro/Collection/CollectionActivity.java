@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CollectionActivity extends Activity {
 
-    private List<Collection> collecTionList = new ArrayList<>();
+    private List<Collection> collectionList = new ArrayList<>();
     RecyclerView mrecyclerview;
     GridLayoutManager mlayoutManager;
 
@@ -30,7 +30,7 @@ public class CollectionActivity extends Activity {
         setContentView(R.layout.collection_layout);
         findview();
         initCollection();
-        CollectionAdapter adapter = new CollectionAdapter(collecTionList);
+        CollectionAdapter adapter = new CollectionAdapter(collectionList);
         mrecyclerview.setAdapter(adapter);
     }
 
@@ -46,16 +46,16 @@ public class CollectionActivity extends Activity {
 
     private void initCollection()  //之后应该正经从数据库加载
     {
-        Collection aiji = new Collection(1,R.drawable.collection1); collecTionList.add(aiji);
-        Collection amercancurcat = new Collection(2,R.drawable.collection2); collecTionList.add(amercancurcat);
-        Collection bolila = new Collection(3,R.drawable.collection3); collecTionList.add(bolila);
-        Collection bosicat = new Collection(4,R.drawable.collection4); collecTionList.add(bosicat);
-        Collection britishcat = new Collection(5,R.drawable.collection5); collecTionList.add(britishcat);
-        Collection dollcat = new Collection(6,R.drawable.collection6); collecTionList.add(dollcat);
-        Collection yiguo = new Collection(7,R.drawable.collection7); collecTionList.add(yiguo);
-        Collection norwaycat = new Collection(8,R.drawable.collection8); collecTionList.add(norwaycat);
-        Collection sugelancat = new Collection(9,R.drawable.collection9); collecTionList.add(sugelancat);
-        Collection xinjiapocat = new Collection(10,R.drawable.collection10); collecTionList.add(xinjiapocat);
+        Collection aiji = new Collection(1,R.drawable.collection1); collectionList.add(aiji);
+        Collection amercancurcat = new Collection(2,R.drawable.collection2); collectionList.add(amercancurcat);
+        Collection bolila = new Collection(3,R.drawable.collection3); collectionList.add(bolila);
+        Collection bosicat = new Collection(4,R.drawable.collection4); collectionList.add(bosicat);
+        Collection britishcat = new Collection(5,R.drawable.collection5); collectionList.add(britishcat);
+        Collection dollcat = new Collection(6,R.drawable.collection6); collectionList.add(dollcat);
+        Collection yiguo = new Collection(7,R.drawable.collection7); collectionList.add(yiguo);
+        Collection norwaycat = new Collection(8,R.drawable.collection8); collectionList.add(norwaycat);
+        Collection sugelancat = new Collection(9,R.drawable.collection9); collectionList.add(sugelancat);
+        Collection xinjiapocat = new Collection(10,R.drawable.collection10); collectionList.add(xinjiapocat);
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration{

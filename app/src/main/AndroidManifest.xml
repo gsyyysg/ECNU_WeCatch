@@ -50,6 +50,8 @@
         <activity android:name=".Information.InformationActivity"></activity>
         <activity android:name=".settingActivity"></activity>
         <activity android:name=".Collection.CollectSucceedActivity"></activity>
+        <activity android:name=".Collection.a_collection"></activity>
+        <activity android:name=".Task.SpecificTask"></activity>
 
         <service android:name="com.baidu.location.f"
             android:enabled="true"

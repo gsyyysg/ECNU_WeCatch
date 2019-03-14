@@ -2,6 +2,7 @@ package com.baidu.ar.pro.Collection;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,8 @@ public class CollectSucceedActivity extends Activity {
 
     private ImageView collectionImage;
 
+    private TextView collectSuccessText;
+
     private int collectionID;
 
     @Override
@@ -29,8 +32,11 @@ public class CollectSucceedActivity extends Activity {
         backButton = findViewById(R.id.back_button);
         IntroductionText = findViewById(R.id.introduction_text);
         collectionImage = findViewById(R.id.collection_success_image);
+        collectSuccessText = findViewById(R.id.collect_success_text);
 
         collectionID = getIntent().getExtras().getInt("collection");
+
+        collectSuccessText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
