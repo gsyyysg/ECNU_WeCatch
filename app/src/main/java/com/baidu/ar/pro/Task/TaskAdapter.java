@@ -16,7 +16,7 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
     private List<Task> mTask;
-    private Context mcontext;
+    private Context mContext;
     private OnCityClickListener onCityClickListener;
 
     public interface OnCityClickListener{
@@ -41,16 +41,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         {
             super(view);
             TaskView = view;
-            mImageView = (ImageView) view.findViewById(R.id.image);
-            mUsed = (TextView) view.findViewById(R.id.item_used);
-            mTitle = (TextView) view.findViewById(R.id.task_item);
-            mButton = (Button) view.findViewById(R.id.task_button);
+            mImageView = view.findViewById(R.id.image);
+            mUsed = view.findViewById(R.id.item_used);
+            mTitle = view.findViewById(R.id.task_item);
+            mButton = view.findViewById(R.id.task_button);
         }
     }
 
     public TaskAdapter(List<Task> taskList,Context mContext){
         mTask = taskList;
-        mcontext = mContext;
+        this.mContext = mContext;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.TaskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int postion = holder.getAdapterPosition();
-                Task task = mTask.get(postion);
+                int position = holder.getAdapterPosition();
+                Task task = mTask.get(position);
                 if(onCityClickListener!=null){
                     onCityClickListener.onCityClick(task);
                 }
@@ -74,10 +74,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                 int status = task.getTask_status();
                 String name = task.getTask_name();
                 String story = task.getTask_background();
-                List<CollecTion> collection =task.getTask_collection();
+                List<Collection> collection =task.getTask_collection();
 
                 Intent intent = new Intent();
-                intent.setClass(mcontext,Sepecific_Task.class);
+                intent.setClass(mContext,Specific_Task.class);
 
                 Bundle bundle = new Bundle();
 
@@ -93,7 +93,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
 
 
-                //((tasklist_activity)mcontext).startActivityForResult(intent,1);
+                //((TaskListActivity)mContext).startActivityForResult(intent,1);
 
                */
             }
@@ -116,7 +116,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
         holder.mTitle.setText(task.getTask_name());
         mid = task.getTask_used_person()+ "";
-        holder.mUsed.setText(head+mid+tail);
+        holder.mUsed.setText(head + mid + tail);
         holder.mImageView.setImageResource(task.getTask_image_ID());
         switch (task.getTask_status())
         {

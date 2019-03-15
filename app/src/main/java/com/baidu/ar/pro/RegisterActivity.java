@@ -28,10 +28,6 @@ public class RegisterActivity extends Activity {
                 //将注册信息上传至服务器
 
                 //注册成功提示
-                AlertDialog alertDialog1 = new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("注册成功！")
-                        .create();
-                alertDialog1.show();
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);

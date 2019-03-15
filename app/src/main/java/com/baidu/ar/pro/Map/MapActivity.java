@@ -2,6 +2,7 @@ package com.baidu.ar.pro.Map;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,6 +66,8 @@ public class MapActivity extends Activity {
 
     private ImageButton chatRoomButton;
 
+    private ImageView bokehImage;
+
     private TextView collectionText;
 
     private TextView missionText;
@@ -105,6 +109,9 @@ public class MapActivity extends Activity {
         missionText = findViewById(R.id.mission_text);
         informationText = findViewById(R.id.information_text);
         chatroomText = findViewById(R.id.chatroom_text);
+        bokehImage = findViewById(R.id.bokeh_image);
+
+        bokehImage.setVisibility(View.GONE);
 
         //改变字体
         collectionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
@@ -222,11 +229,13 @@ public class MapActivity extends Activity {
                 if(menuLayout.getVisibility() == View.GONE) {
                     menuLayout.setVisibility(View.VISIBLE);
                     cameraButton.setVisibility(View.GONE);
+                    bokehImage.setVisibility(View.VISIBLE);
                     menuButton.setBackground(getResources().getDrawable(R.drawable.chevronup));
                 }
                 else if(menuLayout.getVisibility() == View.VISIBLE) {
                     menuLayout.setVisibility(View.GONE);
                     cameraButton.setVisibility(View.VISIBLE);
+                    bokehImage.setVisibility(View.GONE);
                     menuButton.setBackground(getResources().getDrawable(R.drawable.chevrondown));
                 }
             }
@@ -365,11 +374,7 @@ public class MapActivity extends Activity {
     public class MyNotifyListener extends BDNotifyListener {
         public void onNotify(BDLocation mlocation, float distance){
             //已到达设置监听位置附近
-            AlertDialog alertDialog1 = new AlertDialog.Builder(getApplicationContext())
-                    .setTitle("到达位置")//标题
-                    .create();
-            alertDialog1.show();
-
+            locationInformation.setText("我成功啦！！！");
             //标记到达了哪个藏品
             //reachCollection = 666;
         }

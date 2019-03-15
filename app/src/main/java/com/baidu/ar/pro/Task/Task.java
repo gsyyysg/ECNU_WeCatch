@@ -61,9 +61,9 @@ public class Task {
         this.task_background = story;
     }
 
-    public void Set_Task_Collection(List<Collection> collectionlist)
+    public void Set_Task_Collection(List<Collection> collectionList)
     {
-        this.task_collection = collectionlist;
+        this.task_collection = collectionList;
     }
 
     public void Set_Task_Name(String name)

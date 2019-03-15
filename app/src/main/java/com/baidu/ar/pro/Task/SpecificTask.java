@@ -40,20 +40,20 @@ public class SpecificTask extends Activity {
 
 
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager mlayoutManager = new GridLayoutManager(this, 4);
-        mlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mlayoutManager);
+        LinearLayoutManager mLayoutManager = new GridLayoutManager(this, 4);
+        mLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(25));
-        SpecificTaskAdapter mcollectionAdapter = new  SpecificTaskAdapter(s_task_collection);
-        mRecyclerView.setAdapter(mcollectionAdapter);
+        SpecificTaskAdapter mCollectionAdapter = new  SpecificTaskAdapter(s_task_collection);
+        mRecyclerView.setAdapter(mCollectionAdapter);
 
-        mcollectionAdapter.setOnCityClickListener(new SpecificTaskAdapter.OnSTaskClickListener() {
+        mCollectionAdapter.setOnCityClickListener(new SpecificTaskAdapter.OnSTaskClickListener() {
             @Override
             public void onCityClick(Collection acollection) {
-                Collection thiscollection = acollection;
+                Collection thisCollection = acollection;
                 Intent intent = new Intent();
                 intent.setClass(SpecificTask.this, a_collection.class);
-                intent.putExtra("acollection",(Serializable)thiscollection);
+                intent.putExtra("acollection",(Serializable)thisCollection);
                 startActivity(intent);
             }
 

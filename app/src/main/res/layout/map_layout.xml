@@ -15,6 +15,13 @@
         tools:layout_editor_absoluteX="133dp"
         tools:layout_editor_absoluteY="63dp" />
 
+    <ImageView
+        android:id="@+id/bokeh_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#20ffffff"
+        android:visibility="gone" />
+
     <ImageButton
         android:id="@+id/camera_button"
         android:layout_width="80dp"

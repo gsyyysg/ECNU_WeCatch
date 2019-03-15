@@ -2,15 +2,10 @@ package com.baidu.ar.pro.Collection;
 
 import android.app.Activity;
 import android.graphics.Rect;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.baidu.ar.pro.R;
 
@@ -20,8 +15,8 @@ import java.util.List;
 public class CollectionActivity extends Activity {
 
     private List<Collection> collectionList = new ArrayList<>();
-    RecyclerView mrecyclerview;
-    GridLayoutManager mlayoutManager;
+    RecyclerView mRecyclerView;
+    GridLayoutManager mLayoutManager;
 
 
     @Override
@@ -31,16 +26,16 @@ public class CollectionActivity extends Activity {
         findview();
         initCollection();
         CollectionAdapter adapter = new CollectionAdapter(collectionList);
-        mrecyclerview.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
     }
 
     private void findview()
     {
-        mrecyclerview =  findViewById(R.id.recycler_view);
-        mlayoutManager = new GridLayoutManager(this, 5);
-        mlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-        mrecyclerview.setLayoutManager(mlayoutManager);
-        mrecyclerview.addItemDecoration(new SpaceItemDecoration(12));
+        mRecyclerView =  findViewById(R.id.recycler_view);
+        mLayoutManager = new GridLayoutManager(this, 5);
+        mLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(12));
         //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
     }
 

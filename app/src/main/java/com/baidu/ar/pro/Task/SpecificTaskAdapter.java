@@ -18,7 +18,7 @@ public class SpecificTaskAdapter extends RecyclerView.Adapter<SpecificTaskAdapte
     private SpecificTaskAdapter.OnSTaskClickListener onSTaskClickListener;
 
     public interface OnSTaskClickListener{
-        void onCityClick(Collection acollection);
+        void onCityClick(Collection aCollection);
 
         void onLocateClick();
     }
@@ -29,18 +29,18 @@ public class SpecificTaskAdapter extends RecyclerView.Adapter<SpecificTaskAdapte
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView colleciton_image;
+        ImageView collection_image;
         View CollectionView;
 
         public ViewHolder(View view){
             super(view);
             CollectionView = view;
-            colleciton_image = view.findViewById(R.id.sepecific_task_collection_image);
+            collection_image = view.findViewById(R.id.sepecific_task_collection_image);
         }
     }
 
-    public SpecificTaskAdapter(List<Collection> collectionlist){
-       mCollectionList = collectionlist;
+    public SpecificTaskAdapter(List<Collection> collectionList){
+       mCollectionList = collectionList;
     }
 
     @Override
@@ -51,10 +51,10 @@ public class SpecificTaskAdapter extends RecyclerView.Adapter<SpecificTaskAdapte
         holder.CollectionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int postion = holder.getAdapterPosition();
-                Collection acollection = mCollectionList.get(postion);
+                int position = holder.getAdapterPosition();
+                Collection aCollection = mCollectionList.get(position);
                 if (onSTaskClickListener != null) {
-                    onSTaskClickListener.onCityClick(acollection);
+                    onSTaskClickListener.onCityClick(aCollection);
                 }
             }
         });
@@ -65,7 +65,7 @@ public class SpecificTaskAdapter extends RecyclerView.Adapter<SpecificTaskAdapte
     @Override
     public void onBindViewHolder(SpecificTaskAdapter.ViewHolder holder, int position) {
         com.baidu.ar.pro.Collection.Collection collection = mCollectionList.get(position);
-        holder.colleciton_image.setImageResource(collection.getCollection_imageId());
+        holder.collection_image.setImageResource(collection.getCollection_imageId());
     }
 
     @Override
