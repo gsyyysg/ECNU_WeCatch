@@ -62,7 +62,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="我的好友"
-            android:textSize="36sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/friend_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="排行榜"
-            android:textSize="36sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ranking_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -140,7 +140,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="设置"
-            android:textSize="36sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/setting_image"
             app:layout_constraintTop_toTopOf="parent" />

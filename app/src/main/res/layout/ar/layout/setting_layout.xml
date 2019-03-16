@@ -22,13 +22,12 @@
         android:id="@+id/change_password_Layout"
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135">
+        app:layout_constraintVertical_bias="0.17000002">
 
 
         <TextView
@@ -83,7 +82,7 @@
         android:id="@+id/help_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,19 +92,16 @@
             android:id="@+id/boundary3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#717171"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="3dp"
-            />
+            android:background="#717171"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
+            android:id="@+id/boundary4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#717171"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/boundary4"
-            />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -205,7 +201,7 @@
         android:id="@+id/about_Layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -224,19 +220,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/boundary7"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintTop_toTopOf="parent"
             android:background="#717171"
-            android:id="@+id/boundary7"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/boundary8"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#717171"
-            android:id="@+id/boundary8"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
             android:id="@+id/about_button"
