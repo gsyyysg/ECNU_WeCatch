@@ -168,7 +168,9 @@ public class MapActivity extends Activity {
         //注册监听函数
         mLocationClient.registerNotify(myListener);
         //设置位置提醒，四个参数分别是：纬度、精度、半径、坐标类型
-        myListener.SetNotifyLocation(31.2328910211, 121.4129429701, 3000, mLocationClient.getLocOption().getCoorType());
+        //myListener.SetNotifyLocation(31.2328910211, 121.4129429701, 3000, mLocationClient.getLocOption().getCoorType());
+        //myListener.SetNotifyLocation(0, 0, 3000, mLocationClient.getLocOption().getCoorType());
+        myListener.SetNotifyLocation(121.5794, 31.243117, 3000, mLocationClient.getLocOption().getCoorType());
         initLocationOption();
 
         locationInformation = findViewById(R.id.location_information);
@@ -334,13 +336,8 @@ public class MapActivity extends Activity {
         locationOption.setNeedDeviceDirect(true);
         //默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
         locationOption.setLocationNotify(true);
-        //默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        locationOption.setIsNeedLocationPoiList(true);
-        //默认false，设置是否收集CRASH信息，默认收集
-        locationOption.SetIgnoreCacheException(false);
         //默认false，设置是否开启Gps定位
         locationOption.setOpenGps(true);
-        //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
         locationOption.setOpenAutoNotifyMode(3000,1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
         mLocationClient.setLocOption(locationOption);
         mLocationClient.start();
@@ -356,9 +353,13 @@ public class MapActivity extends Activity {
                 return;
             }
 
+            String buildingID = location.getBuildingID();// 百度内部建筑物ID
+            String buildingName = location.getBuildingName();// 百度内部建筑物缩写
+            String floor = location.getFloor();// 室内定位的楼层信息，如 f1,f2,b1,b2
+            mLocationClient.startIndoorMode();// 开启室内定位模式（重复调用也没问题），开启后，定位SDK会融合各种定位信息（GPS,WI-FI，蓝牙，传感器等）连续平滑的输出定位结果；
             longtitude = location.getLongitude();
             latitude = location.getLatitude();
-            locationInformation.setText("我的经度：" + longtitude +"\n我的纬度："+latitude+"\n目标经度："+121.4129429701+"\n目标纬度："+31.2328910211);
+            locationInformation.setText("我的经度：" + longtitude +"\n我的纬度："+latitude+"\n目标经度："+121.5794+"\n目标纬度："+31.2431);
 
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())

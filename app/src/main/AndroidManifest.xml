@@ -29,7 +29,8 @@
             android:allowBackup="false"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -42,16 +43,26 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <activity android:name=".ChatRoom.ChatRoomActivity"></activity>
-        <activity android:name=".Task.TaskListActivity"></activity>
-        <activity android:name=".Collection.CollectionActivity"></activity>
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".Map.MapActivity"></activity>
-        <activity android:name=".Information.InformationActivity"></activity>
-        <activity android:name=".settingActivity"></activity>
-        <activity android:name=".Collection.CollectSucceedActivity"></activity>
-        <activity android:name=".Collection.a_collection"></activity>
-        <activity android:name=".Task.SpecificTask"></activity>
+        <activity android:name=".ChatRoom.ChatRoomActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Task.TaskListActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Collection.CollectionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Map.MapActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Information.InformationActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".settingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Collection.CollectSucceedActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Collection.a_collection"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Task.SpecificTask"
+            android:screenOrientation="portrait"></activity>
 
         <service android:name="com.baidu.location.f"
             android:enabled="true"
