@@ -66,7 +66,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/camera3"
+        android:background="@drawable/camera"
         app:layout_constraintBottom_toBottomOf="@+id/bmapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
