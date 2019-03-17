@@ -3,6 +3,7 @@ package com.baidu.ar.pro.Information;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -13,11 +14,11 @@ import com.baidu.ar.pro.settingActivity;
 
 public class InformationActivity extends Activity {
 
-    private ImageButton friendButton;
+    private ConstraintLayout rankingLayout;
 
-    private ImageButton rankingButton;
+    private ConstraintLayout settingLayout;
 
-    private ImageButton settingButton;
+    private ConstraintLayout friendLayout;
 
     private TextView nickNameText;
 
@@ -28,28 +29,28 @@ public class InformationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.information_layout);
 
-        friendButton = findViewById(R.id.friend_button);
-        rankingButton = findViewById(R.id.ranking_button);
-        settingButton = findViewById(R.id.setting_button);
+        friendLayout = findViewById(R.id.friend_Layout);
+        rankingLayout = findViewById(R.id.ranking_Layout);
+        settingLayout = findViewById(R.id.settingLayout);
         nickNameText = findViewById(R.id.nick_name_text);
         EmailText = findViewById(R.id.email_text);
 
         //获取用户信息
 
 
-        friendButton.setOnClickListener(new View.OnClickListener() {
+        friendLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(InformationActivity.this, ChatRoomActivity.class));
             }
         });
-        rankingButton.setOnClickListener(new View.OnClickListener() {
+        rankingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(InformationActivity.this, ChatRoomActivity.class));
             }
         });
-        settingButton.setOnClickListener(new View.OnClickListener() {
+        settingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(InformationActivity.this, settingActivity.class));

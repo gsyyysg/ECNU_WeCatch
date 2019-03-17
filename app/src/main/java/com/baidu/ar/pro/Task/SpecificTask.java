@@ -40,7 +40,7 @@ public class SpecificTask extends Activity {
 
 
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager mLayoutManager = new GridLayoutManager(this, 4);
+        LinearLayoutManager mLayoutManager = new GridLayoutManager(this, 3);
         mLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(25));

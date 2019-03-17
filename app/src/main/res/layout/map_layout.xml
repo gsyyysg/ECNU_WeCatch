@@ -33,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07999998">
+        app:layout_constraintVertical_bias="0.08">
 
         <TextView
             android:id="@+id/money_text"
@@ -42,7 +42,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
             android:text="0"
-            android:textColor="#84B9CB"
+            android:textColor="#224B8F"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -66,12 +66,12 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/photo"
+        android:background="@drawable/camera3"
         app:layout_constraintBottom_toBottomOf="@+id/bmapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bmapView"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageButton
         android:id="@+id/menu_button"
@@ -191,7 +191,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-
+<!--
     <TextView
         android:id="@+id/location_information"
         android:layout_width="120dp"
@@ -199,6 +199,6 @@
         android:text="No location Information"
         android:textColor="@color/bdar_dialog_bg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
 </android.support.constraint.ConstraintLayout>

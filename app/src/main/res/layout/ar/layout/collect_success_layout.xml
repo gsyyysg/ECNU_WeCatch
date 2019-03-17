@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bdar_scanview_gradient_color_1"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
         android:id="@+id/collection_success_image"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/collection5"
+        android:background="@drawable/collection1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/back_button"

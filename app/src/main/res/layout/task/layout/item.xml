@@ -32,7 +32,7 @@
         android:text="status"
         android:textSize="9sp"
         android:textColor="#32CD99"
-
+        android:background="@drawable/ic_launcher_background"
         />
 
 

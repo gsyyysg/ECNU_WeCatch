@@ -48,6 +48,9 @@ public class CollectSucceedActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CollectSucceedActivity.this, MapActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("money", 100);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

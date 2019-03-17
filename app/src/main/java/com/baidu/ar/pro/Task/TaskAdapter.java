@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.ar.pro.R;
 
@@ -58,6 +59,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent ,false);
         final ViewHolder holder = new ViewHolder(view);
+
+        holder.mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position_About_Button = holder.getAdapterPosition();
+                Task Task_About_Button = mTask.get(position_About_Button);
+                if(Task_About_Button.getTask_status()==3)
+                {
+                    //在添加as数据库后应该判断该用户正在进行中的任务个数是否小于等于3，否则是不可以添加该任务
+                    Toast.makeText(view.getContext(),"已添加"+Task_About_Button.getTask_name(),Toast.LENGTH_SHORT).show();
+                    Task_About_Button.Set_Task_status(2);//这里也应该有向服务器发送数据的代码添加
+                    holder.mButton.setText("进行中");
+                }
+            }
+        });
 
         holder.TaskView.setOnClickListener(new View.OnClickListener() {
             @Override

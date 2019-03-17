@@ -42,6 +42,7 @@ public class CollectionActivity extends Activity {
     private void initCollection()  //之后应该正经从数据库加载
     {
         Collection aiji = new Collection(1,R.drawable.collection1); collectionList.add(aiji);
+        /*
         Collection amercancurcat = new Collection(2,R.drawable.collection2); collectionList.add(amercancurcat);
         Collection bolila = new Collection(3,R.drawable.collection3); collectionList.add(bolila);
         Collection bosicat = new Collection(4,R.drawable.collection4); collectionList.add(bosicat);
@@ -51,6 +52,7 @@ public class CollectionActivity extends Activity {
         Collection norwaycat = new Collection(8,R.drawable.collection8); collectionList.add(norwaycat);
         Collection sugelancat = new Collection(9,R.drawable.collection9); collectionList.add(sugelancat);
         Collection xinjiapocat = new Collection(10,R.drawable.collection10); collectionList.add(xinjiapocat);
+        */
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration{
