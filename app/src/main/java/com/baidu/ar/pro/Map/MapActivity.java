@@ -2,16 +2,15 @@ package com.baidu.ar.pro.Map;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,7 +25,6 @@ import com.baidu.ar.pro.R;
 import com.baidu.ar.pro.Task.TaskListActivity;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.BDNotifyListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
@@ -76,6 +74,8 @@ public class MapActivity extends Activity {
 
     private RelativeLayout menuLayout;
 
+    private ConstraintLayout moneyLayout;
+
     private String email;
 
     private double myLongtitude;
@@ -88,12 +88,14 @@ public class MapActivity extends Activity {
 
     private TextView locationInformation;
 
+    private TextView moneyText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        setMapCustomFile(this, "custom_map_config.json");
+        setMapCustomFile(this, "custom_map_config_pokemongo.json");
 
         setContentView(R.layout.map_layout);
 
@@ -110,14 +112,19 @@ public class MapActivity extends Activity {
         informationText = findViewById(R.id.information_text);
         chatroomText = findViewById(R.id.chatroom_text);
         bokehImage = findViewById(R.id.bokeh_image);
-
+        moneyLayout = findViewById(R.id.money_layout);
+        moneyText = findViewById(R.id.money_text);
         bokehImage.setVisibility(View.GONE);
+
+        targetLongtitute = 31.2328910211;
+        targetLatitude = 121.4129429701;
 
         //改变字体
         collectionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
         missionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
         informationText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
         chatroomText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+        moneyText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
 
         //读取来自LoginActivity的用户信息数据
         email = getIntent().getStringExtra("Email");
@@ -162,11 +169,9 @@ public class MapActivity extends Activity {
         builder.zoom(20.0f);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         //关闭缩放工具
-        mMapView.showZoomControls(false);
+        mMapView.showZoomControls(true);
         //监听位置
         mLocationClient = new LocationClient(getApplicationContext());
-        targetLongtitute = 31.2328910211;
-        targetLatitude = 121.4129429701;
         initLocationOption();
 
         locationInformation = findViewById(R.id.location_information);
@@ -210,7 +215,7 @@ public class MapActivity extends Activity {
                 if(myLatitude - targetLatitude <= 0.0003 && myLatitude - targetLatitude >= -0.0003 &&
                         myLongtitude - targetLongtitute <= 0.003 && myLongtitude - targetLongtitute >= -0.003) {
                     Bundle bundle = new Bundle();
-                    MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299285", null);
+                    MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299568", null);
                     bundle.putInt("collection", 666);
                     bundle.putString("ar_key", listItemBean.getARKey());
                     bundle.putInt("ar_type", listItemBean.getARType());
@@ -227,14 +232,16 @@ public class MapActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(menuLayout.getVisibility() == View.GONE) {
-                    menuLayout.setVisibility(View.VISIBLE);
+                    moneyLayout.setVisibility(View.GONE);
                     cameraButton.setVisibility(View.GONE);
+                    menuLayout.setVisibility(View.VISIBLE);
                     bokehImage.setVisibility(View.VISIBLE);
                     menuButton.setBackground(getResources().getDrawable(R.drawable.chevronup));
                 }
                 else if(menuLayout.getVisibility() == View.VISIBLE) {
-                    menuLayout.setVisibility(View.GONE);
+                    moneyLayout.setVisibility(View.VISIBLE);
                     cameraButton.setVisibility(View.VISIBLE);
+                    menuLayout.setVisibility(View.GONE);
                     bokehImage.setVisibility(View.GONE);
                     menuButton.setBackground(getResources().getDrawable(R.drawable.chevrondown));
                 }
@@ -363,6 +370,7 @@ public class MapActivity extends Activity {
                     .latitude(location.getLatitude())
                     .longitude(location.getLongitude())
                     .build();
+
             mBaiduMap.setMyLocationData(locData);
 
         }

@@ -22,6 +22,8 @@ public class CollectSucceedActivity extends Activity {
 
     private TextView collectSuccessText;
 
+    private TextView addMoneyText;
+
     private int collectionID;
 
     @Override
@@ -33,10 +35,14 @@ public class CollectSucceedActivity extends Activity {
         IntroductionText = findViewById(R.id.introduction_text);
         collectionImage = findViewById(R.id.collection_success_image);
         collectSuccessText = findViewById(R.id.collect_success_text);
+        addMoneyText = findViewById(R.id.add_money_text);
+
+        addMoneyText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+        IntroductionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+        collectSuccessText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
 
         collectionID = getIntent().getExtras().getInt("collection");
 
-        collectSuccessText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

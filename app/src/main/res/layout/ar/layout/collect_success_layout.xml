@@ -19,23 +19,32 @@
         android:id="@+id/collection_success_image"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:background="@drawable/collection5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/back_button"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4"
-        app:srcCompat="@drawable/collection5" />
+        app:layout_constraintVertical_bias="0.4" />
+
+    <ImageView
+        android:layout_width="315dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/background_pink"
+        app:layout_constraintBottom_toTopOf="@+id/collection_success_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/introduction_text"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:gravity="right"
         android:text="我是一只猫"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/collection_success_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,12 +66,25 @@
     <TextView
         android:id="@+id/add_money_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="32dp"
-        android:text="+ 100$"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:text="+   100"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/collection_success_image" />
+
+    <ImageView
+        android:id="@+id/money_Image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/money"
+        app:layout_constraintStart_toEndOf="@+id/add_money_text"
         app:layout_constraintTop_toBottomOf="@+id/collection_success_image" />
 
     <TextView
