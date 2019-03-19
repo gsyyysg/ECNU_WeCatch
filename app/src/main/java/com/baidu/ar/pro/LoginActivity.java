@@ -52,6 +52,7 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(LoginActivity.this, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("Email", "Tourist");
+                bundle.putInt("money",0);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

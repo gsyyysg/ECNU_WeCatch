@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -129,7 +130,8 @@ public class MapActivity extends Activity {
 
         //读取来自LoginActivity的用户信息数据
         email = getIntent().getStringExtra("Email");
-        //moneyText.setText(getIntent().getExtras().getInt("money"));
+
+        moneyText.setText(Integer.toString(getIntent().getExtras().getInt("money")));
         //从后端获取用户信息，包括：任务领取情况，任务完成情况
 
 
@@ -161,6 +163,8 @@ public class MapActivity extends Activity {
          */
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
+        mLocationClient = new LocationClient(getApplicationContext());
+        initLocationOption();
         MapView.setMapCustomEnable(true);
         //自定义定位
         mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,
@@ -171,12 +175,10 @@ public class MapActivity extends Activity {
         builder.zoom(20.0f);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         //关闭缩放工具
-        mMapView.showZoomControls(true);
+        mMapView.showZoomControls(false);
         //监听位置
-        mLocationClient = new LocationClient(getApplicationContext());
-        initLocationOption();
 
-        //locationInformation = findViewById(R.id.location_information);
+        locationInformation = findViewById(R.id.location_information);
 
         initData();
 
@@ -338,35 +340,27 @@ public class MapActivity extends Activity {
         LocationClientOption locationOption = new LocationClientOption();
         MyLocationListener myLocationListener = new MyLocationListener();
         //注册监听函数
-        mLocationClient.registerLocationListener(myLocationListener);
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         locationOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         locationOption.setCoorType("bd09ll");
         //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-        locationOption.setScanSpan(1000);
-        //可选，设置是否需要地址信息，默认不需要
-        locationOption.setIsNeedAddress(true);
-        //可选，设置是否需要地址描述
-        locationOption.setIsNeedLocationDescribe(true);
+        locationOption.setScanSpan(1001);
         //可选，设置是否需要设备方向结果
-        locationOption.setNeedDeviceDirect(false);
+        locationOption.setNeedDeviceDirect(true);
         //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
         locationOption.setLocationNotify(true);
         //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
         locationOption.setIgnoreKillProcess(true);
-        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        locationOption.setIsNeedLocationPoiList(true);
-        //可选，默认false，设置是否收集CRASH信息，默认收集
-        locationOption.SetIgnoreCacheException(false);
         //可选，默认false，设置是否开启Gps定位
         locationOption.setOpenGps(true);
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者，该模式下开发者无需再关心定位间隔是多少，定位SDK本身发现位置变化就会及时回调给开发者
         locationOption.setOpenAutoNotifyMode();
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
-        locationOption.setOpenAutoNotifyMode(3000,1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
+        locationOption.setOpenAutoNotifyMode(0,0, LocationClientOption.LOC_SENSITIVITY_HIGHT);
         //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
         mLocationClient.setLocOption(locationOption);
+        mLocationClient.registerLocationListener(myLocationListener);
         //开始定位
         mLocationClient.start();
     }
@@ -380,14 +374,21 @@ public class MapActivity extends Activity {
             if (location == null || mMapView == null){
                 return;
             }
-
-            String buildingID = location.getBuildingID();// 百度内部建筑物ID
-            String buildingName = location.getBuildingName();// 百度内部建筑物缩写
-            String floor = location.getFloor();// 室内定位的楼层信息，如 f1,f2,b1,b2
-            mLocationClient.startIndoorMode();// 开启室内定位模式（重复调用也没问题），开启后，定位SDK会融合各种定位信息（GPS,WI-FI，蓝牙，传感器等）连续平滑的输出定位结果；
+/*
+            if (location.getFloor() != null) {
+                // 当前支持高精度室内定位
+                String buildingID = location.getBuildingID();// 百度内部建筑物ID
+                String buildingName = location.getBuildingName();// 百度内部建筑物缩写
+                String floor = location.getFloor();// 室内定位的楼层信息，如 f1,f2,b1,b2
+                mLocationClient.startIndoorMode();// 开启室内定位模式（重复调用也没问题），开启后，定位SDK会融合各种定位信息（GPS,WI-FI，蓝牙，传感器等）连续平滑的输出定位结果；
+                myLongtitude = location.getLongitude();
+                myLatitude = location.getLatitude();
+                locationInformation.setText("我的经度：" + myLongtitude +"\n我的纬度："+ myLatitude+"\n目标经度："+targetLongtitude+"\n目标纬度："+targetLatitude);
+            }
+            */
             myLongtitude = location.getLongitude();
             myLatitude = location.getLatitude();
-            //locationInformation.setText("我的经度：" + myLongtitude +"\n我的纬度："+ myLatitude+"\n目标经度："+targetLongtitude+"\n目标纬度："+targetLatitude);
+            locationInformation.setText("我的经度：" + myLongtitude + "\n我的纬度：" + myLatitude + "\n目标经度：" + targetLongtitude + "\n目标纬度：" + targetLatitude);
 
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
@@ -397,6 +398,7 @@ public class MapActivity extends Activity {
                     .build();
 
             mBaiduMap.setMyLocationData(locData);
+
 
         }
     }

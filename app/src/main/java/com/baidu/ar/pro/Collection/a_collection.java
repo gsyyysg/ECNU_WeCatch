@@ -3,6 +3,7 @@ package com.baidu.ar.pro.Collection;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,8 @@ public class a_collection extends Activity {
 
     private TextView collectionStory;
 
+    private Button collectionName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +26,9 @@ public class a_collection extends Activity {
         Collection thisCollection = (Collection)intent.getSerializableExtra("acollection");
         collectionImage = findViewById(R.id.a_collection_image);
         collectionStory = findViewById(R.id.a_collection_story);
-        String background,hint,all,transger ="\n\n";
+        collectionName = findViewById(R.id.button_collection);
         collectionImage.setImageResource(thisCollection.getCollection_imageId());
-        background = thisCollection.getCollection_story();
-        hint = thisCollection.getCollection_hint();
-        all = background + transger + hint;
-        collectionStory.setText(all);
+        collectionName.setText(thisCollection.getCollection_name());
+        collectionStory.setText(thisCollection.getCollection_hint());
     }
 }

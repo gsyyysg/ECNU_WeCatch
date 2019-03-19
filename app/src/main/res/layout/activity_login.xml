@@ -42,7 +42,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
                 android:maxLines="1"
-                android:text="We Catch"
+                android:text="WeCatch"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="30sp" />
