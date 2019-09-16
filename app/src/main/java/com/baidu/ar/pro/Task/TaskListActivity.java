@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.baidu.ar.pro.LoginActivity;
 import com.baidu.ar.pro.R;
 import com.baidu.ar.pro.Collection.Collection;
 
@@ -27,6 +31,18 @@ public class TaskListActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         TaskAdapter mTaskAdapter = new TaskAdapter(TaskList,this);
         mRecyclerView.setAdapter(mTaskAdapter);
+
+        Button customize_button = (Button) findViewById(R.id.customize);
+        customize_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(TaskListActivity.this, CustomizeTheme.class);
+                Log.d("Task","yes");
+                startActivity(i);
+            }
+        });
+
+
 
         mTaskAdapter.setOnCityClickListener(new TaskAdapter.OnCityClickListener() {
 

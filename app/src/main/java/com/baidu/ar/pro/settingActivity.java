@@ -26,6 +26,7 @@ public class settingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
 
+
         logOutButton = findViewById(R.id.log_out_button);
         changePasswordButton = findViewById(R.id.change_password_button);
         helpButton = findViewById(R.id.help_button);

@@ -35,7 +35,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
                     android:maxLines="1"
-                    android:text="啦啦啦"
+                    android:text="WeChat"
                     android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="36sp" />

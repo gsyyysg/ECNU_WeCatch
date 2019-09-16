@@ -7,18 +7,32 @@
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:textSize="20sp"
         android:hint="Search Task"
         android:gravity="center"
 
         />
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
         android:layout_marginTop="5dp"
         android:gravity="center" />
+
+    <Button
+        android:id="@+id/customize"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="自定义主题"
+        android:layout_marginTop="10dp"
+        />
+
 
 </LinearLayout>
