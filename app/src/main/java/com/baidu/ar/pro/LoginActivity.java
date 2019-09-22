@@ -32,6 +32,8 @@ public class LoginActivity extends Activity {
 
     private TextView appName;
 
+    private String url = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,20 +47,6 @@ public class LoginActivity extends Activity {
         appName = findViewById(R.id.app_name);
 
         appName.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
-
-        String url = "";
-
-        HttpUtil.sendOkHttpRequest(url, new okhttp3.Callback(){
-            @Override
-            public void onResponse(Call call, Response response) throws IOException{
-                String responseData = response.body().string();
-            }
-
-            @Override
-            public void onFailure(Call call, IOException e){
-                e.fillInStackTrace();
-            }
-        });
 
         touristButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +74,17 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
 
                 //验证登录信息
+                HttpUtil.sendOkHttpRequest(url, new okhttp3.Callback(){
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException{
+                        String responseData = response.body().string();
+                    }
+
+                    @Override
+                    public void onFailure(Call call, IOException e){
+                        e.fillInStackTrace();
+                    }
+                });
 
                 //传递用户信息到MapActivity
 
