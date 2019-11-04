@@ -7,14 +7,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.baidu.ar.ARFragment;
-import com.baidu.ar.pro.Collection.CollectSucceedActivity;
 import com.baidu.ar.pro.R;
 
 public class mFragment extends ARFragment {
 
     private Button collectButton;
-
-    private int collectionID;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -24,9 +21,6 @@ public class mFragment extends ARFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CollectSucceedActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("collection", collectionID);
-                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -35,6 +29,5 @@ public class mFragment extends ARFragment {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        collectionID = this.getArguments().getInt("collection");
     }
 }

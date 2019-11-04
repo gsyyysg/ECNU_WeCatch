@@ -1,7 +1,11 @@
 package com.baidu.ar.pro.Task;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.Toast;
 
 import com.baidu.ar.pro.R;
 
+import java.io.File;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
@@ -69,7 +74,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                 {
                     //在添加as数据库后应该判断该用户正在进行中的任务个数是否小于等于3，否则是不可以添加该任务
                     Toast.makeText(view.getContext(),"已添加"+Task_About_Button.getTask_name(),Toast.LENGTH_SHORT).show();
-                    Task_About_Button.Set_Task_status(2);//这里也应该有向服务器发送数据的代码添加
+//                    Task_About_Button.setTask_status(2);//这里也应该有向服务器发送数据的代码添加
+//                    Task_About_Button.update(Task_About_Button.getTask_ID());
+//                    Task_About_Button.updateAll("")
+                    Task update_task = new Task();
+                    update_task.setTask_status(2);
+                    update_task.updateAll("task_ID = ?",Integer.toString(Task_About_Button.getTask_ID()));
                     holder.mButton.setText("进行中");
                 }
             }
@@ -82,6 +92,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                 Task task = mTask.get(position);
                 if(onCityClickListener!=null){
                     onCityClickListener.onCityClick(task);
+                    //Intent intent = new Intent();
+                    //intent.setClass(mContext, SpecificTaskActivity.class);
+
                 }
 
 
@@ -133,7 +146,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.mTitle.setText(task.getTask_name());
         mid = task.getTask_used_person()+ "";
         holder.mUsed.setText(head + mid + tail);
-        holder.mImageView.setImageResource(task.getTask_image_ID());
+//        holder.mImageView.setImageResource(task.getTask_image_ID());
+
+        String path = findpath(task.getTask_imagePath(), "Image");
+        //Log.d("ImagePath",task.getTask_imagePath());
+        //Log.d("imagePath",task.getTask_imagePath());
+        if(task.getTask_imagePath() == null)
+        {
+            Log.d("ImagePath","WRONG!!!");
+        }
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        holder.mImageView.setImageBitmap(bitmap);
         switch (task.getTask_status())
         {
             case 1:
@@ -159,6 +182,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             onBindViewHolder(holder,position);
         else onBindViewHolder(holder,position);
     }*/
+
+    public String findpath(String imagename, String path)
+    {
+        File Folder = new File(this.mContext.getFilesDir()+"/"+path);
+        return Folder.getAbsolutePath()+"/"+imagename;
+    }
 
 
 

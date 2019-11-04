@@ -26,7 +26,7 @@
         />
 
     <Button
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="40dp"
         android:id="@+id/sepecific_task_get"
         android:layout_below="@id/sepecific_task_image"
@@ -38,6 +38,19 @@
         android:background="#32CD32"
         android:textAllCaps="false"
         />
+
+    <Button
+        android:id="@+id/sepecific_task_delete"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/sepecific_task_image"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="95dp"
+        android:background="#000000"
+        android:text="Delete"
+        android:textAllCaps="false"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/sepecific_task_background"

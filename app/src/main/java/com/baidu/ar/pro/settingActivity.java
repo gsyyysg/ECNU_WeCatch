@@ -3,35 +3,60 @@ package com.baidu.ar.pro;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
+import com.baidu.ar.pro.Information.aboutUsActivity;
+import com.baidu.ar.pro.Information.changePasswordActivity;
+import com.baidu.ar.pro.Information.feedbackActivity;
+import com.baidu.ar.pro.Information.helpActivity;
+
+import org.litepal.LitePal;
+
+import java.util.List;
 
 public class settingActivity extends Activity {
 
     private Button logOutButton;
 
-    private ImageButton changePasswordButton;
+    private ConstraintLayout changePasswordLayout;
 
-    private ImageButton helpButton;
+    private ConstraintLayout helpLayout;
 
-    private ImageButton feedBackButton;
+    private ConstraintLayout feedBackLayout;
 
-    private ImageButton aboutButton;
+    private ConstraintLayout aboutLayout;
+
+    private ImageButton backButton;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
 
-
         logOutButton = findViewById(R.id.log_out_button);
-        changePasswordButton = findViewById(R.id.change_password_button);
-        helpButton = findViewById(R.id.help_button);
-        feedBackButton = findViewById(R.id.feedback_button);
-        aboutButton = findViewById(R.id.about_button);
+        changePasswordLayout = findViewById(R.id.change_password_Layout);
+        helpLayout = findViewById(R.id.help_Layout);
+        feedBackLayout = findViewById(R.id.feedback_Layout);
+        aboutLayout = findViewById(R.id.about_Layout);
+        backButton = findViewById(R.id.set_back_button);
+
+        List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
+
+        if(tempList.size() == 1)
+            user = tempList.get(0);
+        else if(tempList.size() == 0){
+            //没有owner，重新登录
+            Intent intent = new Intent(settingActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        else{
+            //owner人数大于1，数据库数据出问题
+        }
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,32 +65,38 @@ public class settingActivity extends Activity {
                 startActivity(intent);
             }
         });
-        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+        changePasswordLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(settingActivity.this, ChatRoomActivity.class);
+                Intent intent = new Intent(settingActivity.this, changePasswordActivity.class);
                 startActivity(intent);
             }
         });
-        helpButton.setOnClickListener(new View.OnClickListener() {
+        helpLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(settingActivity.this, ChatRoomActivity.class);
+                Intent intent = new Intent(settingActivity.this, helpActivity.class);
                 startActivity(intent);
             }
         });
-        feedBackButton.setOnClickListener(new View.OnClickListener() {
+        feedBackLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(settingActivity.this, ChatRoomActivity.class);
+                Intent intent = new Intent(settingActivity.this, feedbackActivity.class);
                 startActivity(intent);
             }
         });
-        aboutButton.setOnClickListener(new View.OnClickListener() {
+        aboutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(settingActivity.this, ChatRoomActivity.class);
+                Intent intent = new Intent(settingActivity.this, aboutUsActivity.class);
                 startActivity(intent);
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

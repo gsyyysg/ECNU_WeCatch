@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.baidu.ar.pro.R;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +19,30 @@ import java.util.List;
 public class CollectionActivity extends Activity {
 
     private List<Collection> collectionList = new ArrayList<>();
-    RecyclerView mRecyclerView;
-    GridLayoutManager mLayoutManager;
+
+    private ImageButton backButton;
+
+    private RecyclerView mRecyclerView;
+
+    private GridLayoutManager mLayoutManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collection_layout);
+        backButton = findViewById(R.id.collection_back_button);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         findview();
         initCollection();
-        CollectionAdapter adapter = new CollectionAdapter(collectionList);
+        CollectionAdapter adapter = new CollectionAdapter(collectionList,this);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -41,18 +58,7 @@ public class CollectionActivity extends Activity {
 
     private void initCollection()  //之后应该正经从数据库加载
     {
-        Collection aiji = new Collection(1,R.drawable.collection1); collectionList.add(aiji);
-        /*
-        Collection amercancurcat = new Collection(2,R.drawable.collection2); collectionList.add(amercancurcat);
-        Collection bolila = new Collection(3,R.drawable.collection3); collectionList.add(bolila);
-        Collection bosicat = new Collection(4,R.drawable.collection4); collectionList.add(bosicat);
-        Collection britishcat = new Collection(5,R.drawable.collection5); collectionList.add(britishcat);
-        Collection dollcat = new Collection(6,R.drawable.collection6); collectionList.add(dollcat);
-        Collection yiguo = new Collection(7,R.drawable.collection7); collectionList.add(yiguo);
-        Collection norwaycat = new Collection(8,R.drawable.collection8); collectionList.add(norwaycat);
-        Collection sugelancat = new Collection(9,R.drawable.collection9); collectionList.add(sugelancat);
-        Collection xinjiapocat = new Collection(10,R.drawable.collection10); collectionList.add(xinjiapocat);
-        */
+        collectionList = LitePal.findAll(Collection.class);
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration{

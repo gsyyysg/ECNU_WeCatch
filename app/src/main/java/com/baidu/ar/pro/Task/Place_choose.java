@@ -1,6 +1,7 @@
 package com.baidu.ar.pro.Task;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,8 +53,8 @@ public class Place_choose extends Activity implements View.OnClickListener {
     private List<PoiSearchResults> list = new ArrayList<PoiSearchResults>();
     private MyAdapter_StartAddr adapter = null;
 
-
-
+    private double longitude;
+    private double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +73,13 @@ public class Place_choose extends Activity implements View.OnClickListener {
 
         mSuggestionSearch = SuggestionSearch.newInstance();
 
-        start_adress = (EditText) findViewById(R.id.start_et);
-        poi_lv = (ListView) findViewById(R.id.addre_poi);
-        cancel = (Button) findViewById(R.id.cancel);
-        cancel.setOnClickListener(this);
+        start_adress = findViewById(R.id.start_et);
+        poi_lv = findViewById(R.id.addre_poi);
+        Button cancel_button = findViewById(R.id.cancel);
+        cancel_button.setOnClickListener(this);
 
 
-        city_back = (TextView) findViewById(R.id.city_back);
+        city_back = findViewById(R.id.city_back);
         city_back.setOnClickListener(this);
 
 
@@ -90,15 +91,22 @@ public class Place_choose extends Activity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length()<=0)
+
+                if (charSequence.length()<0)
                 {
                     return;
                 }
+
+                Log.d("test", start_adress.getText().toString());
 
                 //I do not know it's function
 
                 mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).keyword(charSequence.toString()).city("上海"));
 //                mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).keyword(charSequence.toString()).keyword("上海市华东师范大学中山北路校区"));
+
+
+                //poiCitySearchOption = new PoiCitySearchOption().city("上海").keyword("华东师范大学中山北路校区");
+
                 poiCitySearchOption = new PoiCitySearchOption().city("上海").keyword(start_adress.getText().toString());
                 mPoiSearch.searchInCity(poiCitySearchOption);
 //                poiBoundSearchOption = new PoiBoundSearchOption().bound("上海市华东师范大学中山北路校区").keyword(start_adress.getText().toString());
@@ -114,9 +122,6 @@ public class Place_choose extends Activity implements View.OnClickListener {
                 }
 
             }
-
-
-
         });
     }
 
@@ -126,14 +131,13 @@ public class Place_choose extends Activity implements View.OnClickListener {
             case R.id.city_back:
                 finish();
                 break;
-            case R.id.cancel:// 取消按钮
+            case R.id.cancel:// 确认按钮
                 if (!start_adress.getText().toString().equals("")
                         && start_adress.getText().toString() != null) {
                     start_adress.setText("");
                     list.clear();
                     adapter.notifyDataSetChanged();
                 }
-
                 break;
 
             default:
@@ -142,9 +146,6 @@ public class Place_choose extends Activity implements View.OnClickListener {
 
     }
 
-
-
-
     OnGetPoiSearchResultListener poiListener = new OnGetPoiSearchResultListener(){
         private String poiname;
         private String poiadd;
@@ -152,6 +153,7 @@ public class Place_choose extends Activity implements View.OnClickListener {
 
         public void onGetPoiResult(PoiResult result) {
 
+            Log.d("test", "???");
             // 获取POI检索结果
             if (result == null
                     || result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
@@ -159,20 +161,29 @@ public class Place_choose extends Activity implements View.OnClickListener {
                         .show();
                 return;
             }
+
             list.clear();
+
+            Log.d("test", "???2");
             if (result.getAllPoi() == null) {
                 Toast.makeText(Place_choose.this, "未找到结果,请重新输入111",
                         Toast.LENGTH_LONG).show();
                 return;
             } else {
+                Log.d("test", "???3");
                 for (int i = 0; i < result.getAllPoi().size(); i++) {
                     poiname = result.getAllPoi().get(i).name;
                     poiadd = result.getAllPoi().get(i).address;
                     LatLng poilocation = result.getAllPoi().get(i).location;
+                    Log.d("test1",String.valueOf(poilocation));
+                    latitude= poilocation.latitude;
+                    longitude = poilocation.longitude;
 
                     if (poilocation != null) {
-                        Double latitude = poilocation.latitude;
-                        Double longitude = poilocation.longitude;
+                        Toast.makeText(Place_choose.this, "找到结果,不用重新输入",
+                                Toast.LENGTH_LONG).show();
+
+
 
                         // 实例化一个地理编码查询对象
                         GeoCoder geoCoder = GeoCoder.newInstance();
@@ -181,6 +192,7 @@ public class Place_choose extends Activity implements View.OnClickListener {
                         op.location(poilocation);
                         // 发起反地理编码请求(经纬度->地址信息)
                         geoCoder.reverseGeoCode(op);
+
                         geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
 
 
@@ -197,13 +209,19 @@ public class Place_choose extends Activity implements View.OnClickListener {
                         });
                         PoiSearchResults results = new PoiSearchResults(
                                 poiname, poiadd, latitude, longitude);
+
                         list.add(results);
-                        System.out.println(list.toString());
-                    } else {
+
+
+
+                    }
+
+                    else {
                         Toast.makeText(Place_choose.this, "未找到结果,请重新输入",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
+
 
             }
             adapter = new MyAdapter_StartAddr(Place_choose.this, list);

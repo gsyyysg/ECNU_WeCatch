@@ -17,13 +17,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.ar.pro.AR.ARActivity;
 import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
+import com.baidu.ar.pro.Collection.Collection;
 import com.baidu.ar.pro.Collection.CollectionActivity;
 import com.baidu.ar.pro.Information.InformationActivity;
+import com.baidu.ar.pro.LoginActivity;
 import com.baidu.ar.pro.R;
+import com.baidu.ar.pro.Task.Task;
 import com.baidu.ar.pro.Task.TaskListActivity;
+import com.baidu.ar.pro.User;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -34,6 +39,9 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.UiSettings;
+
+import org.litepal.LitePal;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,6 +58,8 @@ public class MapActivity extends Activity {
     private BaiduMap mBaiduMap;
 
     private LocationClient mLocationClient;
+
+    private UiSettings mUiSettings;
 
     private ImageButton cameraButton;
 
@@ -81,7 +91,9 @@ public class MapActivity extends Activity {
 
     private ConstraintLayout moneyLayout;
 
-    private String email;
+    private User user;
+
+    private Collection trackingCollection;
 
     private double myLongtitude;
 
@@ -91,15 +103,30 @@ public class MapActivity extends Activity {
 
     private double targetLatitude;
 
+    private double distance = 0;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private static final double EARTH_RADIUS = 6378.137;
 
-        super.onCreate(savedInstanceState);
+    public static double getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
+        // 纬度
+        double lat1 = Math.toRadians(latitude1);
+        double lat2 = Math.toRadians(latitude2);
+        // 经度
+        double lng1 = Math.toRadians(longitude1);
+        double lng2 = Math.toRadians(longitude2);
+        // 纬度之差
+        double a = lat1 - lat2;
+        // 经度之差
+        double b = lng1 - lng2;
+        // 计算两点距离的公式
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(b / 2), 2)));
+        // 弧长乘地球半径, 返回单位: 千米
+        s =  s * EARTH_RADIUS;
+        return s;
+    }
 
-        setMapCustomFile(this, "custom_map_config_pokemongo.json");
-
-        setContentView(R.layout.map_layout);
+    private void initUI(){
 
         mMapView = findViewById(R.id.bmapView);
         menuLayout = findViewById(R.id.menu_layout);
@@ -116,10 +143,9 @@ public class MapActivity extends Activity {
         bokehImage = findViewById(R.id.bokeh_image);
         moneyLayout = findViewById(R.id.money_layout);
         moneyText = findViewById(R.id.money_text);
-        bokehImage.setVisibility(View.GONE);
+        locationInformation = findViewById(R.id.location_information);
 
-        targetLongtitude = 31.2356;
-        targetLatitude = 121.4096;
+        bokehImage.setVisibility(View.GONE);
 
         //改变字体
         collectionText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
@@ -127,13 +153,51 @@ public class MapActivity extends Activity {
         informationText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
         chatRoomText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
         moneyText.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/小单纯体.ttf"));
+    }
 
-        //读取来自LoginActivity的用户信息数据
-        email = getIntent().getStringExtra("Email");
+    private void initData() {
 
-        moneyText.setText(Integer.toString(getIntent().getExtras().getInt("money")));
-        //从后端获取用户信息，包括：任务领取情况，任务完成情况
+        List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
 
+        Log.d("test", "Usercnt" + Integer.toString(tempList.size()));
+        if(tempList.size() >= 1)
+            user = tempList.get(0);
+        else if(tempList.size() == 0){
+            //没有owner，重新登录
+            Intent intent = new Intent(MapActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        else{
+            //owner人数大于1，数据库数据出问题
+        }
+
+
+        Log.d("test", "Userid"+user.getUser_ID()+"tracking"+user.getTrackingCollectionID());
+        if(user.getTrackingCollectionID() != 0) {
+            List<Collection> tempList1 = LitePal.where("collection_ID = ?", Integer.toString(user.getTrackingCollectionID())).find(Collection.class);
+            if (tempList1.size() > 0)
+                trackingCollection = tempList1.get(0);
+            else
+                trackingCollection = null;
+
+            targetLatitude = trackingCollection.getLatitude();
+            targetLongtitude = trackingCollection.getLongitude();
+
+            locationInformation.setText("我的经度：" + myLongtitude + "\n" +
+                    "我的纬度：" + myLatitude + "\n" +
+                    "目标经度：" + targetLongtitude + "\n" +
+                    "目标纬度：" + targetLatitude + "\n" +
+                    "距离" + distance + "\n" +
+                    "追踪目标：" + trackingCollection.getCollection_name());
+        }
+
+        moneyText.setText(Integer.toString(user.getUser_golds()));
+
+
+
+    }
+
+    private void initPermission(){
 
         //申请权限
         List<String> permissionList=new ArrayList<>();
@@ -158,6 +222,24 @@ public class MapActivity extends Activity {
             ActivityCompat.requestPermissions(MapActivity.this,permissions,1);
         }
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        //setMapCustomFile(this, "custom_map_config_pokemongo.json");
+
+        setContentView(R.layout.map_layout);
+
+        initUI();
+        initData();
+        initPermission();
+
+        List<Task> tttt = LitePal.findAll(Task.class);
+        Log.d("test", Integer.toString(tttt.size()));
+
         /**
          * 地图部分
          */
@@ -166,6 +248,8 @@ public class MapActivity extends Activity {
         mLocationClient = new LocationClient(getApplicationContext());
         initLocationOption();
         MapView.setMapCustomEnable(true);
+        mUiSettings = mBaiduMap.getUiSettings();
+        mUiSettings.setOverlookingGesturesEnabled(true);
         //自定义定位
         mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,
                 true,
@@ -178,9 +262,7 @@ public class MapActivity extends Activity {
         mMapView.showZoomControls(false);
         //监听位置
 
-        locationInformation = findViewById(R.id.location_information);
-
-        initData();
+        Resources res = getResources();
 
         collectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,11 +301,9 @@ public class MapActivity extends Activity {
                 targetLongtitude = myLongtitude;
 
                 //判断是否到达地点以及到达了哪个藏品的地点
-                if(myLatitude - targetLatitude <= 0.0003 && myLatitude - targetLatitude >= -0.0003 &&
-                        myLongtitude - targetLongtitude <= 0.003 && myLongtitude - targetLongtitude >= -0.003) {
+                if(distance != 0 && distance < 30) {
                     Bundle bundle = new Bundle();
                     MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299568", null);
-                    bundle.putInt("collection", 666);
                     bundle.putString("ar_key", listItemBean.getARKey());
                     bundle.putInt("ar_type", listItemBean.getARType());
                     bundle.putString("ar_path", listItemBean.getARPath());
@@ -257,6 +337,8 @@ public class MapActivity extends Activity {
     }
     @Override
     protected void onResume() {
+        Log.d("test", "123341354");
+        initData();
         mMapView.onResume();
         super.onResume();
     }
@@ -307,9 +389,6 @@ public class MapActivity extends Activity {
         MapView.setCustomMapStylePath(moduleName + "/" + fileName);
     }
 
-    private void initData() {
-        Resources res = getResources();
-    }
 
     private class ListItemBean {
         String mARKey;
@@ -386,9 +465,28 @@ public class MapActivity extends Activity {
                 locationInformation.setText("我的经度：" + myLongtitude +"\n我的纬度："+ myLatitude+"\n目标经度："+targetLongtitude+"\n目标纬度："+targetLatitude);
             }
             */
+            double temp;
             myLongtitude = location.getLongitude();
             myLatitude = location.getLatitude();
-            locationInformation.setText("我的经度：" + myLongtitude + "\n我的纬度：" + myLatitude + "\n目标经度：" + targetLongtitude + "\n目标纬度：" + targetLatitude);
+            if(distance == 0){
+                distance = getDistance(myLongtitude, myLatitude, targetLongtitude, targetLatitude);
+            }
+            else{
+                temp = getDistance(myLongtitude, myLatitude, targetLongtitude, targetLatitude);
+                if(temp < distance){
+                    Toast.makeText(getApplication(), "靠近中", Toast.LENGTH_SHORT);
+                }
+                else{
+                    Toast.makeText(getApplication(), "远离中", Toast.LENGTH_SHORT);
+                }
+                distance = temp;
+            }
+            locationInformation.setText("我的经度：" + myLongtitude + "\n" +
+                    "我的纬度：" + myLatitude + "\n" +
+                    "目标经度：" + targetLongtitude + "\n" +
+                    "目标纬度：" + targetLatitude + "\n" +
+                    "距离" + distance + "\n" +
+                    "追踪目标：" + trackingCollection.getCollection_name());
 
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
@@ -402,5 +500,6 @@ public class MapActivity extends Activity {
 
         }
     }
+
 
 }

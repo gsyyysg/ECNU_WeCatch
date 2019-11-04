@@ -6,16 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-     <Button
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:background="#000000"
-        android:text="设置"
-        android:textColor="#ffffff"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <Button
+       android:id="@+id/chatroomNameText"
+       android:layout_width="match_parent"
+       android:layout_height="61dp"
+       android:background="#000000"
+       android:text="设置"
+       android:textColor="#ffffff"
+       android:textSize="35sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.0"
+       app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
@@ -264,4 +265,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/set_back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/chevronleft"
+        app:layout_constraintBottom_toBottomOf="@+id/chatroomNameText"
+        app:layout_constraintStart_toStartOf="@+id/chatroomNameText"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

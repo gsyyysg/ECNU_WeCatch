@@ -8,12 +8,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.ar.pro.R;
+import com.baidu.ar.pro.User;
+
+import org.litepal.LitePal;
 
 import java.util.List;
 
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
 
-    List<Msg> mMsgList;
+    List<Message> mMsgList;
+
+    private User user;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -34,8 +39,11 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
         }
     }
 
-    public MsgAdapter(List<Msg> msgList) {
+    public MsgAdapter(List<Message> msgList) {
         mMsgList = msgList;
+
+        List<User> userList = LitePal.where("owner = ?", "1").find(User.class);
+        user = userList.get(0);
     }
 
     @Override
@@ -46,13 +54,14 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Msg msg = mMsgList.get(position);
-        if (msg.getType() == Msg.TYPE_RECEIVED) {
+
+        Message msg = mMsgList.get(position);
+        if (msg.getReceiver_id() == user.getUser_ID()) {
             // 如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
             holder.leftMsg.setText(msg.getContent());
-        } else if(msg.getType() == Msg.TYPE_SENT) {
+        } else if(msg.getSender_id() == user.getUser_ID()) {
             // 如果是发出的消息，则显示右边的消息布局，将左边的消息布局隐藏
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.leftLayout.setVisibility(View.GONE);

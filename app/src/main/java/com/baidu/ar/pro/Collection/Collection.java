@@ -1,8 +1,10 @@
 package com.baidu.ar.pro.Collection;
 
+import org.litepal.crud.LitePalSupport;
+
 import java.io.Serializable;
 
-public class Collection implements Serializable {
+public class Collection extends LitePalSupport implements Serializable{
 
     private static final long serialVersionUID = -6470574927973900913L;
 
@@ -11,11 +13,13 @@ public class Collection implements Serializable {
     private int collection_imageId;
     private String collection_story;
     private String collection_hint;
+    private String collection_image_name;
     private int collection_gold;
-    private int latitude;  //从后端获得的收藏品标准经纬度
-    private int longtitude;
+    private int status = 0;
+    private double latitude;  //从后端获得的收藏品标准经纬度
+    private double longitude;
 
-    public Collection(int collection_ID, String name,int imageId, String collection_story, String hint, int collection_gold)
+    public Collection(int collection_ID, String name,int imageId, String collection_story, String hint, int collection_gold, int status)
     {
         this.collection_ID=collection_ID;
         this.collection_name=name;
@@ -23,12 +27,26 @@ public class Collection implements Serializable {
         this.collection_story=collection_story;
         this.collection_hint=hint;
         this.collection_gold=collection_gold;
+        this.status = status;
     }
 
     public Collection(int collection_ID, int imageID)
     {
         this.collection_ID = collection_ID;
         this.collection_imageId = imageID;
+    }
+
+    public Collection(int collection_ID, String image_name)
+    {
+        this.collection_ID = collection_ID;
+        this.collection_image_name = image_name;
+    }
+
+    public Collection(int collection_ID, int imageID, int status)
+    {
+        this.collection_ID = collection_ID;
+        this.collection_imageId = imageID;
+        this.status = status;
     }
 
     /*public Collection(String name,int imageId,List<String> story)
@@ -38,38 +56,7 @@ public class Collection implements Serializable {
         //this.collection_story=story;
     }*/
 
-    public void Set_Collection_Name(String name){ this.collection_name = name; }
 
-    public String getCollection_name()
-    {
-        return collection_name;
-    }
-
-    public int getCollection_imageId()
-    {
-        return collection_imageId;
-    }
-
-    public String getCollection_story(){return collection_story; }
-
-    public void Set_Collection_story(String story)
-    {
-        this.collection_story = story;
-    }
-
-    public int getCollection_ID(){
-        return collection_ID;
-    }
-
-    public String getCollection_hint()
-    {
-        return collection_hint;
-    }
-
-    public void Set_Collection_hint(String hint)
-    {
-        this.collection_hint = hint;
-    }
 
     public Collection()
     {
@@ -105,9 +92,16 @@ public class Collection implements Serializable {
         this.collection_imageId = imageid;
     }
 
-    public int getCollection_gold()
-    {
-        return collection_gold;
+    public void setCollection_ID(int collection_ID) {
+        this.collection_ID = collection_ID;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public void setCollection_gold(int gold)
@@ -115,4 +109,57 @@ public class Collection implements Serializable {
         this.collection_gold = gold;
     }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void setCollection_image_name(String collection_image_name) {
+        this.collection_image_name = collection_image_name;
+    }
+
+    public int getCollection_gold()
+    {
+        return collection_gold;
+    }
+
+    public String getCollection_name()
+    {
+        return collection_name;
+    }
+
+    public int getCollection_imageId()
+    {
+        return collection_imageId;
+    }
+
+    public String getCollection_story(){return collection_story; }
+
+    public int getCollection_ID(){
+        return collection_ID;
+    }
+
+    public String getCollection_hint()
+    {
+        return collection_hint;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getCollection_image_name() {
+        return collection_image_name;
+    }
 }

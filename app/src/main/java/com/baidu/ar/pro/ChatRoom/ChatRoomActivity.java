@@ -1,25 +1,36 @@
 package com.baidu.ar.pro.ChatRoom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.baidu.ar.pro.HttpUtil;
+import com.baidu.ar.pro.LoginActivity;
 import com.baidu.ar.pro.R;
+import com.baidu.ar.pro.User;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+import org.litepal.LitePal;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Response;
 
 
 public class ChatRoomActivity extends Activity {
 
-    private List<Msg> msgList = new ArrayList<Msg>();
-
-    private List<Friend> friendList = new ArrayList<Friend>();
+    private List<Message> msgList = new ArrayList<Message>();
 
     private TextView chatroomName;
 
@@ -31,6 +42,8 @@ public class ChatRoomActivity extends Activity {
 
     private Button addFriendButton;
 
+    private ImageButton backButton;
+
     private RecyclerView msgRecyclerView;
 
     private MsgAdapter msgAdapter;
@@ -39,19 +52,40 @@ public class ChatRoomActivity extends Activity {
 
     private FriendAdapter friendAdapter;
 
+    private List<User> friendList;
+
+    private User user;
+
+    private String url = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatting_layout);
-        initMsgs(); // 初始化消息数据
-        initFriends();// 初始化好友数据
         inputText = findViewById(R.id.input_text);
         inputFriendId = findViewById(R.id.input_friend_id);
         sendButton = findViewById(R.id.send_Button);
         addFriendButton = findViewById(R.id.add_friend_button);
-        chatroomName = findViewById(R.id.chatroom_name);
-
+        chatroomName = findViewById(R.id.chatroomNameText);
         msgRecyclerView = findViewById(R.id.msg_recycler_view);
+        backButton = findViewById(R.id.chat_back_button);
+
+        //获取用户信息
+        List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
+
+        if(tempList.size() == 1)
+            user = tempList.get(0);
+        else if(tempList.size() == 0){
+            //没有owner，重新登录
+            Intent intent = new Intent(ChatRoomActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        else{
+            //owner人数大于1，数据库数据出问题
+        }
+
+        friendList = LitePal.where("owner = ?", "0").find(User.class).subList(0, 1);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgAdapter = new MsgAdapter(msgList);
@@ -61,21 +95,95 @@ public class ChatRoomActivity extends Activity {
             public void onClick(View v) {
                 String content = inputText.getText().toString();
                 if (!"".equals(content)) {
-                    Msg msg = new Msg(content, Msg.TYPE_SENT);
+                    Message msg = new Message(content, user.getUser_ID(), friendAdapter.getFriend_id());
+                    msgList = msgAdapter.mMsgList;
                     msgList.add(msg);
+                    msg.save();
                     msgAdapter.notifyItemInserted(msgList.size() - 1); // 当有新消息时，刷新ListView中的显示
                     msgRecyclerView.scrollToPosition(msgList.size() - 1); // 将ListView定位到最后一行
                     inputText.setText(""); // 清空输入框中的内容
+
+
+                    final JSONObject JSONmessage = new JSONObject();
+                    try {
+                        //将message的信息加入
+
+                    } catch (Exception e) {
+                        e.fillInStackTrace();
+                        Log.d("test", e.toString());
+                    }
+
+                    //验证登录信息
+                    HttpUtil.sendPostRequest(url, JSONmessage.toString(), new okhttp3.Callback(){
+
+                        @Override
+                        public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
+                            Log.d("test", JSONmessage.toString());
+                            String responseData = response.body().string();
+
+                            //处理，并加入数据库
+
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                            Log.d("test", e.toString());
+                            e.fillInStackTrace();
+                        }
+
+                    });
                 }
             }
         });
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String content = inputFriendId.getText().toString();
-                Friend friendAdd = new Friend(content);
-                friendList.add(friendAdd);
-                inputFriendId.setText("");
+
+                /*
+                final JSONObject JSONmessage = new JSONObject();
+                try {
+                    //将所查找的朋友id加入
+                } catch (Exception e) {
+                    e.fillInStackTrace();
+                    Log.d("test", e.toString());
+                }
+
+                HttpUtil.sendPostRequest(url, JSONmessage.toString(), new okhttp3.Callback(){
+
+                    @Override
+                    public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
+                        Log.d("test", JSONmessage.toString());
+                        String responseData = response.body().string();
+
+                        //处理朋友信息，并加入数据库
+                        if(true){//存在
+                            //弹出是否添加
+                        }
+                        else{//不存在
+                            //弹出框
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                        Log.d("test", e.toString());
+                        e.fillInStackTrace();
+                    }
+
+                });
+                */
+                User friend = LitePal.where("user_ID = ?", inputFriendId.getText().toString()).find(User.class).get(0);
+                friendList.add(friend);
+                friendAdapter.notifyItemInserted(friendList.size() - 1); // 当有新消息时，刷新ListView中的显示
+                inputFriendId.setText(""); // 清空输入框中的内容
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -84,28 +192,6 @@ public class ChatRoomActivity extends Activity {
         friendRecyclerView.setLayoutManager(layoutManager1);
         friendAdapter = new FriendAdapter(friendList, msgAdapter ,chatroomName);
         friendRecyclerView.setAdapter(friendAdapter);
-    }
-
-    private void initMsgs() {
-        Msg msg1 = new Msg("欢迎来到聊天室", Msg.TYPE_RECEIVED);
-        msgList.add(msg1);
-        Msg msg2 = new Msg("这里现在还什么功能都没有", Msg.TYPE_RECEIVED);
-        msgList.add(msg2);
-        Msg msg3 = new Msg("但是你可以自言自语", Msg.TYPE_RECEIVED);
-        msgList.add(msg3);
-    }
-
-    private void initFriends() {
-        Friend friend1 = new Friend("friend1");
-        friendList.add(friend1);
-        Friend friend2 = new Friend("friend2");
-        friendList.add(friend2);
-        Friend friend3 = new Friend("friend3");
-        friendList.add(friend3);
-        Friend friend4 = new Friend("friend4");
-        friendList.add(friend4);
-        Friend friend5 = new Friend("friend5");
-        friendList.add(friend5);
     }
 
 }

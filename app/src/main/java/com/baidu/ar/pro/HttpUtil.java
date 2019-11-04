@@ -30,7 +30,18 @@ public class HttpUtil {
         client.newCall(request).enqueue(callback);
     }
 
-    public static void sendGetRequest(final String address, String message, final Callback callback) {
+    public static void sendPostRequest(final String address, String message, String[] header ,final Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(message, JSON);
+        Request request = new Request.Builder()
+                .url(address)
+                .post(requestBody)
+                .addHeader(header[0], header[1])
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public static void sendGetRequest(final String address, final Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(address)
@@ -38,5 +49,16 @@ public class HttpUtil {
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    public static void sendGetRequest(final String address, String[] header, final Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .get()
+                .addHeader(header[0], header[1])
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
 
 }
