@@ -18,6 +18,7 @@ public class Collection extends LitePalSupport implements Serializable{
     private int status = 0;
     private double latitude;  //从后端获得的收藏品标准经纬度
     private double longitude;
+    private int AR_ID;
 
     public Collection(int collection_ID, String name,int imageId, String collection_story, String hint, int collection_gold, int status)
     {
@@ -117,6 +118,10 @@ public class Collection extends LitePalSupport implements Serializable{
         this.collection_image_name = collection_image_name;
     }
 
+    public void setAR_ID(int AR_ID) {
+        this.AR_ID = AR_ID;
+    }
+
     public int getCollection_gold()
     {
         return collection_gold;
@@ -161,5 +166,9 @@ public class Collection extends LitePalSupport implements Serializable{
 
     public String getCollection_image_name() {
         return collection_image_name;
+    }
+
+    public int getAR_ID() {
+        return AR_ID;
     }
 }

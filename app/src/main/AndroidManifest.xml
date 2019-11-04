@@ -31,8 +31,8 @@
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
-        <activity android:name=".Task.ArChooseAdapter"></activity>
-        <activity android:name=".Task.ArModelChooseActivity" />
+        <activity android:name=".Task.ARChooseAdapter"></activity>
+        <activity android:name=".Task.ARModelChooseActivity" />
         <activity android:name=".Task.Place_choose" />
         <activity android:name=".Task.CustomizeCollection" />
         <activity android:name=".Task.CustomizeTheme" />
@@ -70,9 +70,6 @@
             android:name=".Map.MapActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Information.InformationActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".settingActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -81,7 +78,25 @@
         <activity
             android:name=".Task.SpecificTaskActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Information.InformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Information.changePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Information.feedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Information.aboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Information.helpActivity"
+            android:screenOrientation="portrait" />
 
+        <service android:name=".ListenerService"
+            android:enabled="true"
+            android:exported="true"/>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

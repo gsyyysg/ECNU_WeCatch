@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.ar.pro.AR.ARActivity;
+import com.baidu.ar.pro.AR.ARModel;
 import com.baidu.ar.pro.ChatRoom.ChatRoomActivity;
 import com.baidu.ar.pro.Collection.Collection;
 import com.baidu.ar.pro.Collection.CollectionActivity;
@@ -302,8 +303,20 @@ public class MapActivity extends Activity {
 
                 //判断是否到达地点以及到达了哪个藏品的地点
                 if(distance != 0 && distance < 30) {
+
+                    ARModel arModel = null;
+                    List<ARModel> tempList = LitePal.where("AR_ID = ?", Integer.toString(trackingCollection.getAR_ID())).find(ARModel.class);
+
+                    if(tempList.size() == 1)
+                        arModel = tempList.get(0);
+
+                    if(arModel == null){
+                        Toast.makeText(getApplication(), "模型数出错",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     Bundle bundle = new Bundle();
-                    MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, "10299568", null);
+                    MapActivity.ListItemBean listItemBean = new MapActivity.ListItemBean(5, arModel.getAR_Key(), null);
                     bundle.putString("ar_key", listItemBean.getARKey());
                     bundle.putInt("ar_type", listItemBean.getARType());
                     bundle.putString("ar_path", listItemBean.getARPath());
