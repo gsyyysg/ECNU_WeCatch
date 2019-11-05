@@ -12,6 +12,7 @@ import com.baidu.ar.pro.Information.aboutUsActivity;
 import com.baidu.ar.pro.Information.changePasswordActivity;
 import com.baidu.ar.pro.Information.feedbackActivity;
 import com.baidu.ar.pro.Information.helpActivity;
+import com.baidu.ar.pro.Information.changeNicknameActivity;
 
 import org.litepal.LitePal;
 
@@ -29,6 +30,8 @@ public class settingActivity extends Activity {
 
     private ConstraintLayout aboutLayout;
 
+    private ConstraintLayout changenicknameLayout;
+
     private ImageButton backButton;
 
     private User user;
@@ -44,6 +47,7 @@ public class settingActivity extends Activity {
         feedBackLayout = findViewById(R.id.feedback_Layout);
         aboutLayout = findViewById(R.id.about_Layout);
         backButton = findViewById(R.id.set_back_button);
+        changenicknameLayout = findViewById(R.id.change_nickname_Layout);
 
         List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
 
@@ -63,6 +67,7 @@ public class settingActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(settingActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         changePasswordLayout.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +75,27 @@ public class settingActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(settingActivity.this, changePasswordActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
+
+        changenicknameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(settingActivity.this, changeNicknameActivity.class);
+                startActivity(intent);
+                finish();
+                //Intent intent = new Intent(settingActivity.this, .class);
+                //startActivity(intent);
+            }
+        });
+
         helpLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(settingActivity.this, helpActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         feedBackLayout.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +103,7 @@ public class settingActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(settingActivity.this, feedbackActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         aboutLayout.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +111,7 @@ public class settingActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(settingActivity.this, aboutUsActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -99,5 +120,11 @@ public class settingActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onCreate(null);
     }
 }

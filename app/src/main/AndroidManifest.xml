@@ -31,7 +31,8 @@
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
-        <activity android:name=".Task.ArChooseAdapter"></activity>
+        <activity android:name=".Information.changeNicknameActivity"></activity>
+        <activity android:name=".Task.ArChooseAdapter" />
         <activity android:name=".Task.ArModelChooseActivity" />
         <activity android:name=".Task.Place_choose" />
         <activity android:name=".Task.CustomizeCollection" />
@@ -89,7 +90,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="euwu4OP0IXhbhaKnDOz1ZFOTtgK0jIsq" />
+            android:value="d9IZjIKr8H7QbwOM3H5IpdPgSfaGvXzw" />
     </application>
 
 </manifest>
