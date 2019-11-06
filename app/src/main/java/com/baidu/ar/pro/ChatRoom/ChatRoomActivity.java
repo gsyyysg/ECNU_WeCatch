@@ -1,6 +1,8 @@
 package com.baidu.ar.pro.ChatRoom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.ar.pro.HttpUtil;
 import com.baidu.ar.pro.LoginActivity;
@@ -138,8 +141,9 @@ public class ChatRoomActivity extends Activity {
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+/*
+                String content = inputText.getText().toString();
 
-                /*
                 final JSONObject JSONmessage = new JSONObject();
                 try {
                     //将所查找的朋友id加入
@@ -155,14 +159,30 @@ public class ChatRoomActivity extends Activity {
                         Log.d("test", JSONmessage.toString());
                         String responseData = response.body().string();
 
-                        //处理朋友信息，并加入数据库
-                        if(true){//存在
-                            //弹出是否添加
+                        if(true){
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(ChatRoomActivity.this);
+                            dialog.setTitle("您搜索的用户是：");
+                            dialog.setMessage(content);
+                            dialog.setCancelable(false);
+                            dialog.setPositiveButton("确认添加", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //添加
+                                    Toast.makeText(getApplication(), "添加成功",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            dialog.setNegativeButton("取消", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //添加
+                                    Toast.makeText(getApplication(), "取消添加",Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
-                        else{//不存在
-                            //弹出框
+                        else{
+                            //不存在
+                            Toast.makeText(getApplication(), "您搜索的用户不存在", Toast.LENGTH_SHORT).show();
                         }
-
 
                     }
 

@@ -3,7 +3,6 @@ package com.baidu.ar.pro.Task;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.baidu.ar.pro.AR.ARModel;
-import com.baidu.ar.pro.Collection.ACollectionActivity;
-import com.baidu.ar.pro.Collection.Collection;
 import com.baidu.ar.pro.R;
 
 import org.litepal.LitePal;
@@ -20,7 +17,7 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArModelChooseActivity extends Activity {
+public class ARModelChooseActivity extends Activity {
 
     private ImageButton backButton;
 
@@ -28,7 +25,7 @@ public class ArModelChooseActivity extends Activity {
 
     private GridLayoutManager mLayoutManager;
 
-    private List<ARModel> ArList = new ArrayList<ARModel>();
+    private List<ARModel> ARList = new ArrayList<ARModel>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +37,7 @@ public class ArModelChooseActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(ArModelChooseActivity.this, CustomizeCollection.class);
+                intent.setClass(ARModelChooseActivity.this, CustomizeCollection.class);
                 startActivity(intent);
             }
         });
@@ -48,8 +45,8 @@ public class ArModelChooseActivity extends Activity {
 
 
         findview();
-        initArChoose();
-        ArChooseAdapter adapter = new ArChooseAdapter(ArList, this);
+        initARChoose();
+        ARChooseAdapter adapter = new ARChooseAdapter(ARList, this);
         mRecyclerView.setAdapter(adapter);
 
     }
@@ -64,9 +61,9 @@ public class ArModelChooseActivity extends Activity {
         //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
     }
 
-    private void initArChoose()  //之后应该正经从数据库加载
+    private void initARChoose()  //之后应该正经从数据库加载
     {
-        ArList = LitePal.findAll(ARModel.class);
+        ARList = LitePal.findAll(ARModel.class);
     }
 
     public class SpaceItemDecoration extends RecyclerView.ItemDecoration{

@@ -3,44 +3,44 @@ package com.baidu.ar.pro.AR;
 import org.litepal.crud.LitePalSupport;
 
 public class ARModel extends LitePalSupport {
-        private String Ar_image_name;
-        private Integer Ar_ID;
-        private String Ar_name;
+        private String AR_image_name;
+        private Integer AR_ID;
+        private String AR_Key;
 
         public ARModel()
         {
 
         }
 
-        public ARModel(String image_name, Integer ID, String name)
+        public ARModel(String image_name, Integer ID, String key)
         {
-            Ar_image_name = image_name;
-            Ar_ID = ID;
-            Ar_name = name;
+            AR_image_name = image_name;
+            AR_ID = ID;
+            AR_Key = key;
         }
 
-        public Integer getAr_ID() {
-            return Ar_ID;
+        public Integer getAR_ID() {
+            return AR_ID;
         }
 
-        public String getAr_image_name() {
-            return Ar_image_name;
+        public String getAR_image_name() {
+            return AR_image_name;
         }
 
-        public String getAr_name() {
-            return Ar_name;
+        public String getAR_Key() {
+            return AR_Key;
         }
 
-        public void setAr_ID(Integer ar_ID) {
-            Ar_ID = ar_ID;
+        public void setAR_ID(Integer ar_ID) {
+            AR_ID = ar_ID;
         }
 
-        public void setAr_image_name(String ar_image_name) {
-            Ar_image_name = ar_image_name;
+        public void setAR_image_name(String ar_image_name) {
+            AR_image_name = ar_image_name;
         }
 
-        public void setAr_name(String ar_name) {
-            Ar_name = ar_name;
+        public void setAR_Key(String ar_name) {
+            AR_Key = ar_name;
         }
 
     }

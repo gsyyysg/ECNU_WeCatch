@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,10 +34,8 @@ import org.json.JSONObject;
 import org.litepal.LitePal;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,19 +83,13 @@ public class CustomizeCollection extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customize_collection);
 
-
         Intent intent = getIntent();
-
 
         final Integer coll_num = intent.getIntExtra("number", -1);
         final Integer task_id = intent.getIntExtra("ID",-1);
-
-
 
         place_choose = findViewById(R.id.place_choose);
         Button next_step = findViewById(R.id.next_button);
@@ -150,7 +141,7 @@ public class CustomizeCollection extends Activity {
         ar_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CustomizeCollection.this, ArModelChooseActivity.class);
+                Intent intent = new Intent(CustomizeCollection.this, ARModelChooseActivity.class);
                 startActivityForResult(intent, CHOOSE_AR);
             }
         });
@@ -378,12 +369,12 @@ public class CustomizeCollection extends Activity {
                 place_name = data.getStringExtra("placeName");
                 place_choose.setText(place_name);
             case CHOOSE_AR:
-                ar.setAr_ID(data.getIntExtra("AR_ID",0));
-                ar.setAr_image_name(data.getStringExtra("AR_image_name"));
-                ar.setAr_name(data.getStringExtra("AR_name"));
-                String path = findpath(ar.getAr_image_name(), "Image");
+                ar.setAR_ID(data.getIntExtra("AR_ID",0));
+                ar.setAR_image_name(data.getStringExtra("AR_image_name"));
+                ar.setAR_Key(data.getStringExtra("AR_name"));
+                String path = findpath(ar.getAR_image_name(), "Image");
 
-                if(ar.getAr_image_name() == null)
+                if(ar.getAR_image_name() == null)
                 {
                     Log.d("ImagePath","WRONG!!!");
                 }

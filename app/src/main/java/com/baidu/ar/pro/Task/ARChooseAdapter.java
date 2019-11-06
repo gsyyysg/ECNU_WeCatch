@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.baidu.ar.pro.AR.ARModel;
-import com.baidu.ar.pro.Collection.Collection;
-import com.baidu.ar.pro.Collection.CollectionAdapter;
 import com.baidu.ar.pro.R;
 
 import java.io.File;
 import java.util.List;
 
-public class ArChooseAdapter extends RecyclerView.Adapter<ArChooseAdapter.ViewHolder> {
+public class ARChooseAdapter extends RecyclerView.Adapter<ARChooseAdapter.ViewHolder> {
 
 private List<ARModel> mARList;
 private Context mContext;
@@ -37,23 +33,23 @@ static class ViewHolder extends RecyclerView.ViewHolder{
     }
 }
 
-    public ArChooseAdapter(List<ARModel> arList, Context context){
+    public ARChooseAdapter(List<ARModel> arList, Context context){
         mARList = arList;
         this.mContext = context;
     }
 
     @Override
-    public ArChooseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ARChooseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ar_item,parent,false);
-        ArChooseAdapter.ViewHolder holder = new ArChooseAdapter.ViewHolder(view);
+        ARChooseAdapter.ViewHolder holder = new ARChooseAdapter.ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(ArChooseAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ARChooseAdapter.ViewHolder holder, int position) {
         final ARModel ar = mARList.get(position);
-        String path = findpath(ar.getAr_image_name(), "Image");
-        if(ar.getAr_image_name() == null)
+        String path = findpath(ar.getAR_image_name(), "Image");
+        if(ar.getAR_image_name() == null)
         {
             Log.d("ImagePath","WRONG!!!");
         }
@@ -65,11 +61,11 @@ static class ViewHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra("AR_ID",ar.getAr_ID());
-                intent.putExtra("AR_image_name",ar.getAr_image_name());
-                intent.putExtra("AR_name",ar.getAr_name());
-                ((ArModelChooseActivity)mContext).setResult(CHOOSE_AR, intent);
-                ((ArModelChooseActivity)mContext).finish();
+                intent.putExtra("AR_ID",ar.getAR_ID());
+                intent.putExtra("AR_image_name",ar.getAR_image_name());
+                intent.putExtra("AR_name",ar.getAR_Key());
+                ((ARModelChooseActivity)mContext).setResult(CHOOSE_AR, intent);
+                ((ARModelChooseActivity)mContext).finish();
             }
         });
     }

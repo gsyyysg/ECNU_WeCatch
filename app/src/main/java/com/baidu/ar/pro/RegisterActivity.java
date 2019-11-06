@@ -27,6 +27,9 @@ public class RegisterActivity extends Activity {
 
     private String url = "http://47.100.58.47:5000/auth/register";
 
+    private String[] validEmail = new String[]{"@qq.com", "@126.com", "@163.com","@hotmail.bom","@stu.ecnu.edu.cn","@msn.com","@gamil.com","@yahoo.com"
+            ,"@mail.com","@googlemail.com", "@sina.com", "@sogou.com"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,18 @@ public class RegisterActivity extends Activity {
                     Toast.makeText(getApplication(), "密码长度至少为8位，注册失败", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //将注册信息上传至服务器
+
+                int flag = 0;
+                for(String test : validEmail){
+                    if(email.endsWith(test)) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(flag == 0) {
+                    Toast.makeText(getApplication(), "无效的邮箱地址，注册失败", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 JSONObject JSONmessage = new JSONObject();
                 try {
