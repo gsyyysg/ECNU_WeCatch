@@ -38,6 +38,29 @@ public class Task extends LitePalSupport {
         this.task_collected_ID=collected;
     }
 
+    public Task(int task_ID, int task_status)
+    {
+        this.task_name=null;
+        this.task_ID=task_ID;
+        this.task_status=task_status;
+        this.task_used_person=0;
+        this.task_image_ID=0;
+        this.task_background=null;
+        this.task_collection=null;
+        this.task_collected_ID=null;
+    }
+
+    public Task(String task_name, int task_ID, int task_used_person, int task_image_ID, String task_background, List<Collection> collection, List<Integer> collected)
+    {
+        this.task_name=task_name;
+        this.task_ID=task_ID;
+        this.task_status=task_status;
+        this.task_used_person=task_used_person;
+        this.task_image_ID=task_image_ID;
+        this.task_background=task_background;
+        this.task_collection=collection;
+        this.task_collected_ID=collected;
+    }
     public Task(String task_name, int task_ID, int task_status,int task_used_person, String image_path)
     {
         this.task_name = task_name;

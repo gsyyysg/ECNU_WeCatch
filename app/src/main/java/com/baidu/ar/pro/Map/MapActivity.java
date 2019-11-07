@@ -207,6 +207,10 @@ public class MapActivity extends Activity {
             permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         if (ContextCompat.checkSelfPermission(MapActivity.this, Manifest.
+                permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.CAMERA);
+        }
+        if (ContextCompat.checkSelfPermission(MapActivity.this, Manifest.
                 permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED){
             permissionList.add(Manifest.permission.READ_PHONE_STATE);
         }
@@ -230,7 +234,7 @@ public class MapActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
-        //setMapCustomFile(this, "custom_map_config_pokemongo.json");
+        setMapCustomFile(this, "custom_map_config_pokemongo.json");
 
         setContentView(R.layout.map_layout);
 
@@ -302,11 +306,12 @@ public class MapActivity extends Activity {
                 targetLongtitude = myLongtitude;
 
                 //判断是否到达地点以及到达了哪个藏品的地点
-                if(distance != 0 && distance < 30) {
-
+                //if(distance != 0 && distance < 30 && trackingCollection != null) {
+                if(true) {
                     ARModel arModel = null;
                     List<ARModel> tempList = LitePal.where("AR_ID = ?", Integer.toString(trackingCollection.getAR_ID())).find(ARModel.class);
 
+                    Log.d("test", trackingCollection.getAR_ID() +" "+ tempList.size());
                     if(tempList.size() == 1)
                         arModel = tempList.get(0);
 
@@ -324,6 +329,10 @@ public class MapActivity extends Activity {
                     intent.putExtras(bundle);
                 }
                 //将藏品信息传递给ARActivity
+                else{
+                    intent = new Intent("android.media.action.IMAGE_CAPTURE");
+
+                }
 
                 startActivity(intent);
             }
@@ -466,7 +475,7 @@ public class MapActivity extends Activity {
             if (location == null || mMapView == null){
                 return;
             }
-/*
+
             if (location.getFloor() != null) {
                 // 当前支持高精度室内定位
                 String buildingID = location.getBuildingID();// 百度内部建筑物ID
@@ -477,7 +486,6 @@ public class MapActivity extends Activity {
                 myLatitude = location.getLatitude();
                 locationInformation.setText("我的经度：" + myLongtitude +"\n我的纬度："+ myLatitude+"\n目标经度："+targetLongtitude+"\n目标纬度："+targetLatitude);
             }
-            */
             double temp;
             myLongtitude = location.getLongitude();
             myLatitude = location.getLatitude();
@@ -495,6 +503,12 @@ public class MapActivity extends Activity {
                 distance = temp;
             }
             locationInformation.setText("我的经度：" + myLongtitude + "\n" +
+                    "我的纬度：" + myLatitude + "\n" +
+                    "目标经度：" + targetLongtitude + "\n" +
+                    "目标纬度：" + targetLatitude + "\n" +
+                    "距离" + distance + "\n" +
+                    "追踪目标：" + trackingCollection.getCollection_name());
+            Log.d("test", "我的经度：" + myLongtitude + "\n" +
                     "我的纬度：" + myLatitude + "\n" +
                     "目标经度：" + targetLongtitude + "\n" +
                     "目标纬度：" + targetLatitude + "\n" +

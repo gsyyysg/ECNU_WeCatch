@@ -10,12 +10,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.ar.pro.AR.ARModel;
 import com.baidu.ar.pro.ChatRoom.Message;
@@ -56,11 +58,9 @@ public class LoginActivity extends Activity {
 
     private String url = "http://47.100.58.47:5000/auth/login";
 
+    private String user_url = "http://47.100.58.47:5000/info/user";
+
     private ListenerService.ListenerBinder listenerBinder;
-
-    private  Button messageButton;
-
-    private Button taskButton;
 
     String listenUrl = null;
 
@@ -68,6 +68,7 @@ public class LoginActivity extends Activity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             listenerBinder = (ListenerService.ListenerBinder)service;
+            listenerBinder.startListen(listenUrl);
         }
 
         @Override
@@ -89,46 +90,6 @@ public class LoginActivity extends Activity {
 
         appName.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/小单纯体.ttf"));
 
-        messageButton = findViewById(R.id.message_button);
-        taskButton = findViewById(R.id.task_button);
-
-        Intent intent = new Intent(this, ListenerService.class);
-        startService(intent);
-        bindService(intent, connection, BIND_AUTO_CREATE);
-
-
-
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(listenerBinder == null){
-                    return;
-                }
-                if(listenUrl == null) {
-                    String listenUrl = "";
-                    listenerBinder.startListen(listenUrl);
-                }
-                listenerBinder.newMessage();
-            }
-        });
-        taskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(listenerBinder == null){
-                    return;
-                }
-                if(listenUrl == null) {
-                    String listenUrl = "";
-                    listenerBinder.startListen(listenUrl);
-                }
-                listenerBinder.newTask();
-
-            }
-        });
-
-
-        initdb_test();
 
         final List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
         //从数据库获得owner为1的User类
@@ -138,11 +99,10 @@ public class LoginActivity extends Activity {
             user = tempList.get(0);
 
             emailText.setText(user.getEmail());
-            passwordText.setText(user.getPassword_hash());
+            passwordText.setText(user.getPassword());
             //将owner的email和密码添加到输入栏
-        } else if (tempList.size() == 0) {
-        } else {
-            Log.d("test", "查找owner时owner个数不为0或1");
+        } else{
+            user = null;
         }
 
         touristButton.setOnClickListener(new View.OnClickListener() {
@@ -171,19 +131,9 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
 
 
-                String password, email;
+                final String password, email;
                 password = passwordText.getText().toString();
                 email = emailText.getText().toString();
-
-                if (user == null || emailText.getText().toString().equals(user.getEmail())) {
-                    final List<User> tempList = LitePal.where("email = ?", emailText.getText().toString()).find(User.class);
-
-                    if (tempList.size() == 1)
-                        user = tempList.get(0);
-                    else {
-                        user = null;
-                    }
-                }
 
                 final JSONObject JSONmessage = new JSONObject();
                 try {
@@ -207,35 +157,93 @@ public class LoginActivity extends Activity {
 
                         Log.d("test", loginResult);
 
-                        if (loginResult.equals("登陆成功")) {
+                        if (responseData.substring(0, 4).equals("登陆成功")) {
                             //登录成功
-                            final List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
-                            for (int i = 0; i < tempList.size(); ++i) {
-                                User temp = tempList.get(i);
-                                temp.setOwner(false);
-                                temp.save();
-                            }
 
-                            if (user == null) {
-                                user = new User();
-                                user.setOwner(true);
+                            if (user == null || !emailText.getText().toString().equals(user.getEmail())) {
+
+                                final JSONObject JSONmessage = new JSONObject();
+                                try {
+                                    JSONmessage.put("email", email);
+                                } catch (Exception e) {
+                                    e.fillInStackTrace();
+                                    Log.d("test", e.toString());
+                                }
+
+                                HttpUtil.sendPostRequest(user_url, JSONmessage.toString(), new okhttp3.Callback() {
+
+                                    @Override
+                                    public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
+                                        String responseData = response.body().string();
+                                        Log.d("test", responseData);
+
+                                        LitePal.deleteAll(User.class);
+                                        LitePal.deleteAll(Task.class);
+                                        LitePal.deleteAll(Collection.class);
+                                        LitePal.deleteAll(Message.class);
+                                        LitePal.deleteAll(ARModel.class);
+
+                                        initdb();
+
+                                        try{
+                                            JSONObject jsonObject = new JSONObject(responseData);
+                                            int id = jsonObject.getInt("id");
+                                            int gold = jsonObject.getInt("currency");
+                                            String nickname = jsonObject.getString("name");
+                                            String email = jsonObject.getString("email");
+                                            String about_me = jsonObject.getString("about_me");
+                                            /*List<Integer> task_id = (List<Integer>)jsonObject.get("tasks");
+
+                                            for(int i : task_id){
+                                                Task task = new Task(i, 1);
+                                                task.save();
+                                            }*/
+
+                                            Log.d("test", email +"\n"+ nickname +"\n"+ about_me +"\n"+ id +"\n"+ gold);
+                                            user = new User(email,nickname, gold,id,true,password,about_me);
+                                            user.setCookie(responseData.substring(4));
+
+                                        }catch (Exception e){
+                                            Log.d("test", e.toString());
+                                            e.printStackTrace();
+                                        }
+                                        user.setTrackingCollectionID(1);
+
+                                        user.save();
+
+                                        Intent intent1 = new Intent(LoginActivity.this, ListenerService.class);
+                                        startService(intent1);
+                                        bindService(intent1, connection, BIND_AUTO_CREATE);
+
+                                        Intent intent = new Intent(LoginActivity.this, MapActivity.class);
+                                        startActivity(intent);
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                                        Looper.prepare();
+                                        Toast.makeText(getApplication(), "用户名或密码错误", Toast.LENGTH_LONG).show();
+                                        Looper.loop();
+                                        Log.d("test", e.toString());
+                                        e.fillInStackTrace();
+                                    }
+
+                                });
+
+                            }
+                            else{
                                 user.setCookie(responseData.substring(4));
-                                user.setPassword_hash(passwordText.getText().toString());
-                                user.setEmail(emailText.getText().toString());
+                                user.setTrackingCollectionID(1);
                                 user.save();
-                                //initdb();
-                            }
-                            else {
-                                user.setOwner(true);
-                                user.setCookie(responseData.substring(4));
-                                user.setPassword_hash(passwordText.getText().toString());
-                                user.setEmail(emailText.getText().toString());
-                                user.save();
-                            }
 
+                                Intent intent1 = new Intent(LoginActivity.this, ListenerService.class);
+                                startService(intent1);
+                                bindService(intent1, connection, BIND_AUTO_CREATE);
 
-                            Intent intent = new Intent(LoginActivity.this, MapActivity.class);
-                            startActivity(intent);
+                                Intent intent = new Intent(LoginActivity.this, MapActivity.class);
+                                startActivity(intent);
+                            }
                         } else {
                             //登录失败
                             Log.d("test", "登陆失败");
@@ -257,59 +265,6 @@ public class LoginActivity extends Activity {
 
 
     private void initdb() {
-
-        final JSONObject JSONmessage = new JSONObject();
-        try {
-
-        } catch (Exception e) {
-            e.fillInStackTrace();
-            Log.d("test", e.toString());
-        }
-
-        //验证登录信息
-        HttpUtil.sendPostRequest(url, JSONmessage.toString(), new okhttp3.Callback(){
-
-            @Override
-            public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
-                Log.d("test", JSONmessage.toString());
-                String responseData = response.body().string();
-
-                //处理信息，并加入数据库
-
-            }
-
-            @Override
-            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
-                Log.d("test", e.toString());
-                e.fillInStackTrace();
-            }
-
-        });
-
-    }
-
-    private void initdb_test() {
-
-
-        LitePal.deleteAll(User.class);
-        LitePal.deleteAll(Task.class);
-        LitePal.deleteAll(Collection.class);
-        LitePal.deleteAll(Message.class);
-        LitePal.deleteAll(ARModel.class);
-
-
-        // Test, attention please, this is test!
-        User user_my = new User("805604559@qq.com", "ZoeyIsGreat", R.drawable.task_ad_5, 10000, 1, false, "6666");
-        user_my.save();
-        User user_friend1 = new User("friend1@126.com", "Friend1IsGreat", R.drawable.task_ad_5, 1, 2, false);
-        user_friend1.save();
-        User user_friend2 = new User("friend2@qq.com", "Friend2IsGreat", R.drawable.task_ad_5, 2, 3, false);
-        user_friend2.save();
-        User user_friend3 = new User("friend2@126.com", "Friend3IsGreat", R.drawable.task_ad_5, 3, 4, false);
-        user_friend3.save();
-
-        //There is no message
-        //Task list
 
         Bitmap bitmap;
         InputStream stream = getResources().openRawResource(+R.drawable.task1);
@@ -371,6 +326,7 @@ public class LoginActivity extends Activity {
                 "欸？抱我起来干什么？不行！不可以割！欸！？");
         aiji.setLatitude(121.4096);
         aiji.setLongitude(31.2356);
+        aiji.setAR_ID(1);
 
         collectionlist.add(1);
 
@@ -379,6 +335,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection2);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫2.png");
+        amercancurcat.setAR_ID(2);
         collectionlist.add(2);
 
         Collection bolila = new Collection(3, "猫猫3.png");
@@ -386,6 +343,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection3);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫3.png");
+        bolila.setAR_ID(3);
         collectionlist.add(3);
 
         Collection bosicat = new Collection(4, "猫猫4.png");
@@ -393,6 +351,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection4);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫4.png");
+        bosicat.setAR_ID(4);
         collectionlist.add(4);
 
         Collection britishcat = new Collection(5, "猫猫5.png");
@@ -400,6 +359,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection5);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫5.png");
+        britishcat.setAR_ID(5);
         collectionlist.add(5);
 
         Collection dollcat = new Collection(6, "猫猫6.png");
@@ -407,6 +367,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection6);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫6.png");
+        dollcat.setAR_ID(6);
         collectionlist.add(6);
 
         Collection yiguo = new Collection(7, "猫猫7.png");
@@ -414,6 +375,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection7);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫7.png");
+        yiguo.setAR_ID(7);
         collectionlist.add(7);
 
         Collection norwaycat = new Collection(8, "猫猫8.png");
@@ -421,6 +383,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection8);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫8.png");
+        norwaycat.setAR_ID(8);
         collectionlist.add(8);
 
         Collection sugelancat = new Collection(9, "猫猫9.png");
@@ -428,6 +391,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection9);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫9.png");
+        sugelancat.setAR_ID(9);
         collectionlist.add(9);
 
         Collection xinjiapocat = new Collection(10, "猫猫10.png");
@@ -435,6 +399,7 @@ public class LoginActivity extends Activity {
         stream = getResources().openRawResource(+R.drawable.collection10);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "猫猫10.png");
+        xinjiapocat.setAR_ID(10);
         collectionlist.add(10);
 
 
@@ -452,52 +417,52 @@ public class LoginActivity extends Activity {
 
 
        //Initialize AR Model
-        ARModel arone = new ARModel("ar1.png",1,"ar1");
+        ARModel arone = new ARModel("ar1.png",1,"10313537");
         stream = getResources().openRawResource(+R.drawable.collection1);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar1.png");
 
-        ARModel artwo = new ARModel("ar2.png",2,"ar2");
+        ARModel artwo = new ARModel("ar2.png",2,"10313575");
         stream = getResources().openRawResource(+R.drawable.collection2);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar2.png");
 
-        ARModel arthree = new ARModel("ar3.png", 3,"ar3");
+        ARModel arthree = new ARModel("ar3.png", 3,"10313536");
         stream = getResources().openRawResource(+R.drawable.collection3);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar3.png");
 
-        ARModel arfour = new ARModel("ar4.png",4,"ar4");
+        ARModel arfour = new ARModel("ar4.png",4,"10313538");
         stream = getResources().openRawResource(+R.drawable.collection4);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar4.png");
 
-        ARModel arfive = new ARModel("ar5.png",5,"ar5");
+        ARModel arfive = new ARModel("ar5.png",5,"10313574");
         stream = getResources().openRawResource(+R.drawable.collection5);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar5.png");
 
-        ARModel arsix = new ARModel("ar6.png",6,"ar6");
+        ARModel arsix = new ARModel("ar6.png",6,"10313573");
         stream = getResources().openRawResource(+R.drawable.collection6);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar6.png");
 
-        ARModel arseven = new ARModel("ar7.png",7,"ar7");
+        ARModel arseven = new ARModel("ar7.png",7,"10313576");
         stream = getResources().openRawResource(+R.drawable.collection7);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar7.png");
 
-        ARModel areight = new ARModel("ar8.png",8,"ar8");
+        ARModel areight = new ARModel("ar8.png",8,"10313577");
         stream = getResources().openRawResource(+R.drawable.collection8);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar8.png");
 
-        ARModel arnine = new ARModel("ar9.png",9,"ar9");
+        ARModel arnine = new ARModel("ar9.png",9,"10313579");
         stream = getResources().openRawResource(+R.drawable.collection9);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar9.png");
 
-        ARModel arten = new ARModel("ar10.png",10,"ar10");
+        ARModel arten = new ARModel("ar10.png",10,"10313578");
         stream = getResources().openRawResource(+R.drawable.collection10);
         bitmap = BitmapFactory.decodeStream(stream);
         saveBitmapToFile("Image", bitmap, "ar10.png");

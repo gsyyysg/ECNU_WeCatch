@@ -2,13 +2,15 @@ package com.baidu.ar.pro;
 
 import org.litepal.crud.LitePalSupport;
 
+import java.util.List;
+
 public class User extends LitePalSupport {
     private int user_ID = 0;
     private String email = "";
     private String nickname = "";
     private int user_image_ID = 0;
     private int user_golds = 0;
-    private String password_hash = "";
+    private String password = "";
     private String about_me = "";
     private boolean owner = false;
     private String cookie = "";
@@ -22,7 +24,7 @@ public class User extends LitePalSupport {
         this.user_golds = golds;
         this.user_ID = user_ID;
         this.owner = owner;
-        this.password_hash = null;
+        this.password = null;
         this.about_me = null;
     }
 
@@ -34,7 +36,31 @@ public class User extends LitePalSupport {
         this.user_golds = golds;
         this.user_ID = user_ID;
         this.owner = owner;
-        this.password_hash = password;
+        this.password = password;
+        this.about_me = null;
+    }
+
+    public User(String email, String nickname, int golds, int user_ID, boolean owner, String password, String about_me)
+    {
+        this.email=email;
+        this.nickname=nickname;
+        this.user_image_ID=0;
+        this.user_golds = golds;
+        this.user_ID = user_ID;
+        this.owner = owner;
+        this.password = password;
+        this.about_me = about_me;
+    }
+
+    public User(String email, String nickname, int user_ID)
+    {
+        this.email=email;
+        this.nickname=nickname;
+        this.user_image_ID = 0;
+        this.user_golds = 0;
+        this.user_ID = user_ID;
+        this.owner = false;
+        this.password = null;
         this.about_me = null;
     }
 
@@ -58,8 +84,8 @@ public class User extends LitePalSupport {
         this.user_image_ID = user_image_ID;
     }
 
-    public void setPassword_hash(String password_hash) {
-        this.password_hash = password_hash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setAbout_me(String about_me) {
@@ -82,8 +108,8 @@ public class User extends LitePalSupport {
         this.trackingCollectionID = trackingCollectionID;
     }
 
-    public String getPassword_hash() {
-        return password_hash;
+    public String getPassword() {
+        return password;
     }
 
     public String getEmail()

@@ -22,6 +22,13 @@ public class Message extends LitePalSupport {
         this.receiver_id = receiver_id;
     }
 
+    public Message(int message_id, String content, int sender_id, int receiver_id){
+        this.message_id = message_id;
+        this.content = content;
+        this.sender_id = sender_id;
+        this.receiver_id = receiver_id;
+    }
+
     public String getContent() {
         return content;
     }

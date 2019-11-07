@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,7 +41,7 @@ public class ChatRoomActivity extends Activity {
 
     private EditText inputText;
 
-    private EditText inputFriendId;
+    private EditText inputFriendEmail;
 
     private Button sendButton;
 
@@ -59,14 +61,20 @@ public class ChatRoomActivity extends Activity {
 
     private User user;
 
-    private String url = "";
+    private String send_url = "http://47.100.58.47:5000/test/send";
+
+    private String add_url = "http://47.100.58.47:5000/info/user";
+
+    private Handler handler = new Handler();
+
+    private User friend = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatting_layout);
         inputText = findViewById(R.id.input_text);
-        inputFriendId = findViewById(R.id.input_friend_id);
+        inputFriendEmail = findViewById(R.id.input_friend_id);
         sendButton = findViewById(R.id.send_Button);
         addFriendButton = findViewById(R.id.add_friend_button);
         chatroomName = findViewById(R.id.chatroomNameText);
@@ -86,8 +94,7 @@ public class ChatRoomActivity extends Activity {
         else{
             //owner人数大于1，数据库数据出问题
         }
-
-        friendList = LitePal.where("owner = ?", "0").find(User.class).subList(0, 1);
+        friendList = LitePal.where("owner = ?", "0").find(User.class);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         msgRecyclerView.setLayoutManager(layoutManager);
@@ -98,33 +105,46 @@ public class ChatRoomActivity extends Activity {
             public void onClick(View v) {
                 String content = inputText.getText().toString();
                 if (!"".equals(content)) {
-                    Message msg = new Message(content, user.getUser_ID(), friendAdapter.getFriend_id());
-                    msgList = msgAdapter.mMsgList;
-                    msgList.add(msg);
-                    msg.save();
-                    msgAdapter.notifyItemInserted(msgList.size() - 1); // 当有新消息时，刷新ListView中的显示
-                    msgRecyclerView.scrollToPosition(msgList.size() - 1); // 将ListView定位到最后一行
-                    inputText.setText(""); // 清空输入框中的内容
+                    final Message msg = new Message(content, user.getUser_ID(), friendAdapter.getFriend_id());
+
 
 
                     final JSONObject JSONmessage = new JSONObject();
                     try {
                         //将message的信息加入
+                        JSONmessage.put("text", msg.getContent())
+                                .put("id", msg.getReceiver_id());
 
                     } catch (Exception e) {
                         e.fillInStackTrace();
                         Log.d("test", e.toString());
                     }
 
-                    //验证登录信息
-                    HttpUtil.sendPostRequest(url, JSONmessage.toString(), new okhttp3.Callback(){
+
+                    String header[] = new String[2];
+                    header[0] = "Authorization";
+                    header[1] = user.getCookie();
+
+                    HttpUtil.sendPostRequest(send_url, JSONmessage.toString(), header, new okhttp3.Callback(){
 
                         @Override
                         public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
-                            Log.d("test", JSONmessage.toString());
                             String responseData = response.body().string();
+                            Log.d("test", responseData);
 
                             //处理，并加入数据库
+                            if(responseData.equals("Message sent")){
+
+                                msgList = msgAdapter.mMsgList;
+                                msgList.add(msg);
+                                msg.save();
+                                msgAdapter.notifyItemInserted(msgList.size() - 1); // 当有新消息时，刷新ListView中的显示
+                                msgRecyclerView.scrollToPosition(msgList.size() - 1); // 将ListView定位到最后一行
+                                inputText.setText(""); // 清空输入框中的内容
+                            }
+                            else{
+
+                            }
 
                         }
 
@@ -141,33 +161,57 @@ public class ChatRoomActivity extends Activity {
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                String content = inputText.getText().toString();
+
+                final String content = inputFriendEmail.getText().toString();
 
                 final JSONObject JSONmessage = new JSONObject();
                 try {
-                    //将所查找的朋友id加入
+                    //将所查找的朋友email加入
+                    JSONmessage.put("email", content);
                 } catch (Exception e) {
                     e.fillInStackTrace();
                     Log.d("test", e.toString());
                 }
 
-                HttpUtil.sendPostRequest(url, JSONmessage.toString(), new okhttp3.Callback(){
+                HttpUtil.sendPostRequest(add_url, JSONmessage.toString(), new okhttp3.Callback(){
 
                     @Override
                     public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
-                        Log.d("test", JSONmessage.toString());
-                        String responseData = response.body().string();
+                        final String responseData = response.body().string();
+                        Log.d("test", responseData);
 
-                        if(true){
+                        if(!responseData.equals("找不到")){
+
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(responseData);
+
+                                int id = jsonObject.getInt("id");
+                                String nickname = jsonObject.getString("name");
+                                String email = jsonObject.getString("email");
+
+                                friend = new User(email,nickname,id);
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
                             AlertDialog.Builder dialog = new AlertDialog.Builder(ChatRoomActivity.this);
                             dialog.setTitle("您搜索的用户是：");
-                            dialog.setMessage(content);
+                            dialog.setMessage("ID："+friend.getUser_ID() + "\n邮箱：" + friend.getEmail());
                             dialog.setCancelable(false);
                             dialog.setPositiveButton("确认添加", new DialogInterface.OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     //添加
+
+                                    new Thread(){
+                                        public void run(){
+
+                                            handler.post(runnable);
+                                        }
+                                    }.start();
+                                    friend.save();
+
+
                                     Toast.makeText(getApplication(), "添加成功",Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -178,11 +222,18 @@ public class ChatRoomActivity extends Activity {
                                     Toast.makeText(getApplication(), "取消添加",Toast.LENGTH_SHORT).show();
                                 }
                             });
+                            Looper.prepare();
+                            dialog.show();
+                            Looper.loop();
+
                         }
                         else{
                             //不存在
+                            Looper.prepare();
                             Toast.makeText(getApplication(), "您搜索的用户不存在", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
                         }
+
 
                     }
 
@@ -193,11 +244,7 @@ public class ChatRoomActivity extends Activity {
                     }
 
                 });
-                */
-                User friend = LitePal.where("user_ID = ?", inputFriendId.getText().toString()).find(User.class).get(0);
-                friendList.add(friend);
-                friendAdapter.notifyItemInserted(friendList.size() - 1); // 当有新消息时，刷新ListView中的显示
-                inputFriendId.setText(""); // 清空输入框中的内容
+                inputFriendEmail.setText(""); // 清空输入框中的内容
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -213,5 +260,15 @@ public class ChatRoomActivity extends Activity {
         friendAdapter = new FriendAdapter(friendList, msgAdapter ,chatroomName);
         friendRecyclerView.setAdapter(friendAdapter);
     }
+
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+
+            friendList.add(friend);
+            friendAdapter.notifyItemInserted(friendList.size() - 1); // 当有新消息时，刷新ListView中的显示
+        }
+    };
 
 }

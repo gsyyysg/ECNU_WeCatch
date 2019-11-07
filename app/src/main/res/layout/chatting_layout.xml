@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toStartOf="@+id/friend_recycler_view"
-        app:layout_constraintHorizontal_weight="0.65"
+        app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
@@ -45,7 +45,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.35"
+        app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toEndOf="@+id/msg_recycler_view"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
@@ -95,7 +95,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:hint="输入玩家id进行添加"
+            android:hint="输入玩家邮箱进行添加"
             android:maxLines="1"
             android:textAlignment="center"
             android:textSize="8sp"

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/change_Nickname_Text"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:background="#000000"
+        android:text="设置昵称"
+        android:textColor="#ffffff"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/pw_back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/chevronleft"
+        app:layout_constraintBottom_toBottomOf="@+id/change_password_Text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/oldNicknameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="您原来的昵称为："
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_Nickname_Text" />
+
+    <TextView
+        android:id="@+id/old_Nickname_Input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bdar_dialog_gray"
+        android:textSize="30sp"
+        android:text="我也不知道你昵称是个啥"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oldNicknameText" />
+
+    <TextView
+        android:id="@+id/newNicknameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="请输入你的新昵称："
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/old_Nickname_Input" />
+
+    <EditText
+        android:id="@+id/new_Nickname_Input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bdar_dialog_gray"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newNicknameText" />
+
+    <Button
+        android:id="@+id/confirm_Change_Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="确认设置"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_Nickname_Input" />
+
+</android.support.constraint.ConstraintLayout>

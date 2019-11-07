@@ -50,15 +50,6 @@ public class Collection extends LitePalSupport implements Serializable{
         this.status = status;
     }
 
-    /*public Collection(String name,int imageId,List<String> story)
-    {
-        this.collection_name=name;
-        this.imageId=imageId;
-        //this.collection_story=story;
-    }*/
-
-
-
     public Collection()
     {
 

@@ -129,23 +129,4 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <Button
-        android:id="@+id/message_button"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:text="新消息"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/task_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/task_button"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:text="新任务"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -90,4 +90,10 @@ public class InformationActivity extends Activity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onCreate(null);
+    }
 }

@@ -8,9 +8,18 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.baidu.speech.utils.L;
+
+import org.litepal.LitePal;
+
+import java.util.List;
 
 public class ListenerService extends Service {
 
@@ -58,12 +67,19 @@ public class ListenerService extends Service {
 
     class ListenerBinder extends Binder{
 
+        private User user;
+
+        final Handler mHandler = new Handler();
+
         public void startListen(String url){
-            if(listenerTask == null){
+
+
+            if (listenerTask == null) {
                 listenUrl = url;
                 listenerTask = new ListenerTask(listener);
                 listenerTask.execute(listenUrl);
-                Toast.makeText(ListenerService.this, "Listening...", Toast.LENGTH_SHORT). show();
+                Log.d("test", "Listening...");
+
             }
         }
 
@@ -73,14 +89,6 @@ public class ListenerService extends Service {
 
         public void cancelListen() {
 
-        }
-
-        public void newMessage(){
-            listener.onNewMessage();
-        }
-
-        public void newTask(){
-            listener.onNewTask();
         }
 
     }

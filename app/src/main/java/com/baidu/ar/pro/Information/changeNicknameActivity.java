@@ -1,14 +1,16 @@
 package com.baidu.ar.pro.Information;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.ar.pro.HttpUtil;
@@ -26,27 +28,27 @@ import java.util.List;
 
 import okhttp3.Response;
 
-public class changePasswordActivity extends Activity {
+public class changeNicknameActivity extends Activity {
 
     private User user;
 
-    private EditText oldPasswordInput;
+    private TextView oldNicknameInput;
 
-    private EditText newPasswordInput;
+    private EditText newNicknameInput;
 
     private Button confirmButton;
 
     private ImageButton backButton;
 
-    private String url = "http://47.100.58.47:5000/auth/change";
+    private String url = "http://47.100.58.47:5000/test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_password_layout);
+        setContentView(R.layout.activity_change_nickname);
 
-        oldPasswordInput = findViewById(R.id.old_Password_Input);
-        newPasswordInput = findViewById(R.id.new_Password_Input);
+        oldNicknameInput = findViewById(R.id.old_Nickname_Input);
+        newNicknameInput = findViewById(R.id.new_Nickname_Input);
         confirmButton = findViewById(R.id.confirm_Change_Button);
         backButton = findViewById(R.id.pw_back_button);
 
@@ -57,67 +59,45 @@ public class changePasswordActivity extends Activity {
             }
         });
 
-        //获取用户信息
         List<User> tempList = LitePal.where("owner = ?", "1").find(User.class);
 
         if(tempList.size() == 1)
             user = tempList.get(0);
         else if(tempList.size() == 0){
             //没有owner，重新登录
-            Intent intent = new Intent(changePasswordActivity.this, LoginActivity.class);
+            Intent intent = new Intent(changeNicknameActivity.this, LoginActivity.class);
             startActivity(intent);
         }
         else{
             //owner人数大于1，数据库数据出问题
         }
 
+        String nickname = user.getNickname();
+
+        if(nickname == null) nickname = "你还没有设置自己的昵称哦～";
+
+        oldNicknameInput.setText(nickname);
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                /*
                 final JSONObject JSONmessage = new JSONObject();
                 try {
-                    JSONmessage.put("old_password", oldPasswordInput.getText().toString())
-                            .put("new_password", newPasswordInput.getText().toString());
-                    //将密码加入
+                    JSONmessage.put("name", newNicknameInput.getText().toString());
                 } catch (Exception e) {
                     e.fillInStackTrace();
                     Log.d("test", e.toString());
                 }
 
-                String header[] = new String[2];
-                header[0] = "Authorization";
-                header[1] = user.getCookie();
-                int flag = 0;
-                HttpUtil.sendPostRequest(url, JSONmessage.toString(), header, new okhttp3.Callback() {
+                HttpUtil.sendPostRequest(url, JSONmessage.toString(), new okhttp3.Callback(){
 
                     @Override
                     public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
+                        Log.d("test", JSONmessage.toString());
                         String responseData = response.body().string();
-                        Log.d("test", responseData);
 
                         //修改好密码
-                        if(responseData.equals("Change succeeded")){
-                            user = LitePal.where("owner = ?", "1").find(User.class).get(0);
-                            user.setPassword(newPasswordInput.getText().toString());
-                            user.save();
-                            Looper.prepare();
-                            Toast.makeText(getApplication(), "修改成功", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-                            Intent intent = new Intent(changePasswordActivity.this, settingActivity.class);
-                            startActivity(intent);
-
-                        }
-                        else{
-                            Looper.prepare();
-                            Toast.makeText(getApplication(), "密码错误，修改失败", Toast.LENGTH_SHORT).show();
-                            Looper.loop();
-                        }
-
-                        oldPasswordInput.setText("");
-                        newPasswordInput.setText("");
-
 
 
                     }
@@ -130,10 +110,23 @@ public class changePasswordActivity extends Activity {
 
                 });
 
-            }
+                 */
 
+                User temp = new User();
+                temp.setNickname(newNicknameInput.getText().toString());
+                temp.updateAll("user_id = ?", Integer.toString(user.getUser_ID()));
+                user = LitePal.where("owner = ?", "1").find(User.class).get(0);
+                Log.d("debug", user.getNickname());
+                oldNicknameInput.setText("");
+                newNicknameInput.setText("");
+                Toast.makeText(getApplication(), "修改成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(changeNicknameActivity.this, settingActivity.class);
+                startActivity(intent);
+                finish();
+
+
+            }
         });
 
     }
-
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.baidu.ar.pro.LoginActivity;
@@ -21,9 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskListActivity extends Activity {
-    List<Task> TaskList = new ArrayList<>();
 
+    private List<Task> TaskList = new ArrayList<>();
 
+    private Button customize_button;
+
+    private LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+
+    private RecyclerView mRecyclerView;
+
+    private TaskAdapter mTaskAdapter;
+
+    private EditText searchTaskInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +42,16 @@ public class TaskListActivity extends Activity {
 
         initTask();
 
-        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView = findViewById(R.id.recyclerView);
+        searchTaskInput = findViewById(R.id.search_task_input);
+
+        mTaskAdapter = new TaskAdapter(TaskList,this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        TaskAdapter mTaskAdapter = new TaskAdapter(TaskList,this);
         mRecyclerView.setAdapter(mTaskAdapter);
 
         final int requestcode = 0;
 
-        Button customize_button = (Button) findViewById(R.id.customize);
+        customize_button = findViewById(R.id.customize);
         customize_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,7 +112,7 @@ public class TaskListActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        onCreate(null);
+        //onCreate(null);
     }
 
     //自打表系列
