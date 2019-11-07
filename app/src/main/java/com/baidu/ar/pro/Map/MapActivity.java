@@ -306,8 +306,7 @@ public class MapActivity extends Activity {
                 targetLongtitude = myLongtitude;
 
                 //判断是否到达地点以及到达了哪个藏品的地点
-                //if(distance != 0 && distance < 30 && trackingCollection != null) {
-                if(true) {
+                if(distance != 0 && distance < 300 && trackingCollection != null) {
                     ARModel arModel = null;
                     List<ARModel> tempList = LitePal.where("AR_ID = ?", Integer.toString(trackingCollection.getAR_ID())).find(ARModel.class);
 
@@ -331,7 +330,6 @@ public class MapActivity extends Activity {
                 //将藏品信息传递给ARActivity
                 else{
                     intent = new Intent("android.media.action.IMAGE_CAPTURE");
-
                 }
 
                 startActivity(intent);
