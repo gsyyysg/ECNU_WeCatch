@@ -5,6 +5,7 @@ import android.os.Message;
 import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.litepal.LitePal;
 
@@ -75,13 +76,17 @@ public class ListenerTask extends AsyncTask {
                     Log.d("test", responseData);
 
                     if(responseData.equals("[{}]") || responseData.startsWith("<!DOCTYPE"))return ;
-
+/*
                     responseData = responseData.substring(1, responseData.length() - 1).replace("\"", "");
                     String[] list = responseData.split(",");
 
 
                     JSONObject jsonArray[] = new JSONObject[list.length];
 
+
+ */
+
+                    /*
                     for(int i=0; i<list.length; i++){
 
                         try {
@@ -90,14 +95,17 @@ public class ListenerTask extends AsyncTask {
                             e.printStackTrace();
                         }
                     }
+                    */
+
                     //处理JSON，生成message并保存
                     try {
+                        JSONArray jsonArray = new JSONArray(responseData);
 
                         List<Message> temp = LitePal.findAll(Message.class);
-                        if(temp.size() < jsonArray.length)
+                        if(temp.size() < jsonArray.length())
                             listener.onNewMessage();
-                        for (int i = temp.size(); i < jsonArray.length; ++i) {
-                            JSONObject jsonObject = jsonArray[i];
+                        for (int i = temp.size(); i < jsonArray.length(); ++i) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("id");
                             String content = jsonObject.getString("content");
                             int receiver_id = jsonObject.getInt("receiver_id");

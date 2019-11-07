@@ -77,8 +77,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
             public void onClick(View v) {
                 chatroomName.setText("和" + holder.friendName.getText() + "的聊天室");
 
-                User friend = LitePal.where("nickname like ?", holder.friendName.getText().toString()).find(User.class).get(0);
+                User friend = LitePal.where("email like ?", holder.friendName.getText().toString()).find(User.class).get(0);
                 friend_id = friend.getUser_ID();
+
+                Log.d("test", ">>>"+friend.getUser_ID()+"   "+friend.getEmail());
 
                 int size = msgAdapter.mMsgList.size();
                 while(size-- != 0){

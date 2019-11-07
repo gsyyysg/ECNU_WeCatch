@@ -22,11 +22,11 @@ public class DemoApplication extends Application {
 
         Res.addResource(this);
         // 设置App Id
-        DuMixARConfig.setAppId("15625068");
+        DuMixARConfig.setAppId("17720947");
         // 设置API Key
-        DuMixARConfig.setAPIKey("ypi61GAHvb0bItBsF2WWmk0G");
+        DuMixARConfig.setAPIKey("Wq3INP1VkhKGePQViB0T9c6N");
         // 设置Secret Key
-        DuMixARConfig.setSecretKey("lGvFFnwGonUfOoH1hcfct0kZ5YaT0NjP");
+        DuMixARConfig.setSecretKey("eH9BWcxMDn54F2x6bmg3sVLEA7K0Tqac");
 
         LitePal.initialize(this);
     }

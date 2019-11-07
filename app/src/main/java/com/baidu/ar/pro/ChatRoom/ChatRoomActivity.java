@@ -107,7 +107,7 @@ public class ChatRoomActivity extends Activity {
                 if (!"".equals(content)) {
                     final Message msg = new Message(content, user.getUser_ID(), friendAdapter.getFriend_id());
 
-
+                    Log.d("test", friendAdapter.getFriend_id()+"");
 
                     final JSONObject JSONmessage = new JSONObject();
                     try {
@@ -135,12 +135,6 @@ public class ChatRoomActivity extends Activity {
                             //处理，并加入数据库
                             if(responseData.equals("Message sent")){
 
-                                msgList = msgAdapter.mMsgList;
-                                msgList.add(msg);
-                                msg.save();
-                                msgAdapter.notifyItemInserted(msgList.size() - 1); // 当有新消息时，刷新ListView中的显示
-                                msgRecyclerView.scrollToPosition(msgList.size() - 1); // 将ListView定位到最后一行
-                                inputText.setText(""); // 清空输入框中的内容
                             }
                             else{
 
@@ -155,6 +149,19 @@ public class ChatRoomActivity extends Activity {
                         }
 
                     });
+
+                    try {
+                        Thread.currentThread();
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    msgList = msgAdapter.mMsgList;
+                    msgList.add(msg);
+                    msg.save();
+                    msgAdapter.notifyItemInserted(msgList.size() - 1); // 当有新消息时，刷新ListView中的显示
+                    msgRecyclerView.scrollToPosition(msgList.size() - 1); // 将ListView定位到最后一行
+                    inputText.setText(""); // 清空输入框中的内容
                 }
             }
         });

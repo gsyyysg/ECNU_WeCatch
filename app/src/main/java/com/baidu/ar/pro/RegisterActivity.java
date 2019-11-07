@@ -3,6 +3,7 @@ package com.baidu.ar.pro;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,7 +51,6 @@ public class RegisterActivity extends Activity {
                 email = emailText.getText().toString();
 
                 if(password.length() < 8){
-
                     Toast.makeText(getApplication(), "密码长度至少为8位，注册失败", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -83,6 +83,9 @@ public class RegisterActivity extends Activity {
                     public void onResponse(@NotNull okhttp3.Call call, @NotNull Response response) throws IOException {
                         String responseData = response.body().string();
                         Log.d("test", responseData);
+
+                        Looper.prepare();
+                        Toast.makeText(getApplication(), "注册成功", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);

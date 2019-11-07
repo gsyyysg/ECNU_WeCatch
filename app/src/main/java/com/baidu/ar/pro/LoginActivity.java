@@ -110,10 +110,19 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
 
                 //传递用户信息到MapActivity
+                LitePal.deleteAll(User.class);
+                LitePal.deleteAll(Task.class);
+                LitePal.deleteAll(Collection.class);
+                LitePal.deleteAll(Message.class);
+                LitePal.deleteAll(ARModel.class);
+
+                initdb();
+
                 user = new User();
                 user.setOwner(true);
                 user.setCookie("visitor");
                 user.save();
+
 
                 Intent intent = new Intent(LoginActivity.this, MapActivity.class);
                 startActivity(intent);
